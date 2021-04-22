@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -36,11 +37,16 @@ public class FailedLogin extends HttpServlet {
     
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String path;
+		HttpSession session= request.getSession();//TODO verificare se qua si arriva dopo che la sessione è sempre stata creata
+		String path="/Login.html";
+		String defaultMessage="Please login";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("errorMsg", "Incorrect username or password");
-		path = "/Login.html";
+		String msg= (String) session.getAttribute("errorMsg");
+		if(msg==null)
+			msg=defaultMessage;
+		session.setAttribute("errorMsg", null);
+		ctx.setVariable("errorMsg", msg);
 		templateEngine.process(path, ctx, response.getWriter());
 		
 	}
