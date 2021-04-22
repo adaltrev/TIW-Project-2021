@@ -3,17 +3,69 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+<link rel="stylesheet" type="text/css" media="all" href="../CssErrors.css" th:href="@{/Css/ProfStyle.css}" />
 </head>
 <body>
 	<div align="right">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
-	<h1>Welcome to Polizon</h1>
-	<p
-		th:text="${'Nice to see you again ' + session.user.name + ' ' + session.user.surname}">
-	</p>
+	<div align="center">
+		<h1>Welcome to Polizon</h1>
+		<p>
+			<span
+				th:text="${'Nice to see you again ' + session.user.name + ' ' + session.user.surname}">
+				Nice to see you again Lorenzo the Magnificent </span>
+		</p>
+
+		<form th:action="@{/GetResults}" method="POST">
+			<span> Search with Polizon </span> <input type="text" name="input"
+				required> <input type="submit" value="search" />
+		</form>
+	</div>
+
+	<h2 th:remove="all" th:text="${viewedMessage}">Recent viewed
+		Products</h2>
+	<ul th:remove="all">
+		<li th:each="product : ${recentProducts}"><span
+			th:text="${product.name}"></span><a
+			th:href=@{/GetProductDetails?id=${product.id}}></a></li>
+		<li><p>
+				<span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
+		<li><p>
+				<span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
+		<li><p>
+				<span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
+		<li><p>
+				<span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
+		<li><p>
+				<span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
+	</ul>
+	<h2 th:remove="all" th:text="${viewedMessage}">Polizon Suggest</h2>
+	<ul th:remove="all">
+		<li th:each="product : ${suggestedProducts}"><span
+			th:text="${product.name}"></span><a
+			th:href=@{/GetProductDetails?id=${product.id}}></a></li>
+		<li><p>
+				<span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
+		<li><p>
+				<span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
+		<li><p>
+				<span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
+		<li><p>
+				<span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
+		<li><p>
+				<span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
+	</ul>
+
+	<div align="left">
+		<a href="Home.html" th:href="@{/GoToHome}">Home</a>
+	</div>
+	<div align="center">
+		<a href="Cart.html" th:href="@{/GoToCart}">Cart</a>
+	</div>
+	<div align="right">
+		<a href="Orders.html" th:href="@{/GoToOrders}">Login</a>
+	</div>
 
 </body>
 </html>
