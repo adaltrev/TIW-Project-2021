@@ -20,6 +20,18 @@
 		<param-name>dbDriver</param-name>
 		<param-value>com.mysql.cj.jdbc.Driver</param-value>
 	</context-param>
+	<filter>
+		<filter-name>LoginChecker</filter-name>
+		<filter-class>filters.LoginChecker</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginChecker</filter-name>
+		<url-pattern>/Home</url-pattern>
+		<url-pattern>/GetResults</url-pattern>
+		<url-pattern>/Logout</url-pattern>
+		<url-pattern>/Orders</url-pattern>
+		<url-pattern>/Cart</url-pattern>
+	</filter-mapping>
 	<welcome-file-list>
 		<welcome-file>Login.html</welcome-file>
 	</welcome-file-list>
