@@ -2,6 +2,9 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,10 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import beans.Product;
+import dao.ProductDao;
 import utils.ConnectionHandler;
 
 
@@ -38,11 +45,24 @@ public class GetResults extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
     
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Map<Product, Integer> results=new HashMap<>();
+		ProductDao productDao = new ProductDao(connection);
+		String search= StringEscapeUtils.escapeJava(request.getParameter("search"));
 		
+		try {
+			results = productDao.getSearchResults(search);
+		}catch(SQLException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Server unavailable, not possible to show search results");
+			return;
+		}
 		
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		
-		
+		//TODO SetVariable, Process...
 	}
 
 	
