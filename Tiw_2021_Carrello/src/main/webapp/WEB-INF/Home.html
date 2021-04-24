@@ -3,7 +3,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home</title>
-<link rel="stylesheet" type="text/css" media="all" href="../CssErrors.css" th:href="@{/Css/ProfStyle.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CssErrors.css" th:href="@{/Css/ProfStyle.css}" />
 </head>
 <body>
 	<div align="right">
@@ -23,38 +24,29 @@
 		</form>
 	</div>
 
-	<h2 th:text="${viewedMessage}">Recent viewed
-		Products</h2>
+	<h2 th:text="${viewedMessage}">Recent viewed Products</h2>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${recentProducts}"><span
-			th:text="${product.name}"></span><a
-			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a></li>
-		<li><p>
-				<span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
-		<li><p>
-				<span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
-		<li><p>
-				<span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
-		<li><p>
-				<span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
-		<li><p>
-				<span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
+			th:text="${product.name}  "></span><a
+			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a> <img
+			th:src="@{/Images/Watermelon.png}"></img></li>
+		<li><span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
+		<li><span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
+		<li><span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
+		<li><span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
+		<li><span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
 	</ul>
 	<h2 th:text="${defaultMessage}">Polizon Suggest</h2>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${suggestedProducts}"><span
-			th:text="${product.name}"></span><a
-			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a></li>
-		<li><p>
-				<span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
-		<li><p>
-				<span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
-		<li><p>
-				<span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
-		<li><p>
-				<span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
-		<li><p>
-				<span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
+			th:text="${product.name}  "></span><a
+			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a> <img
+			th:src="@{${product.image}}" ></li>
+		<li><span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
+		<li><span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
+		<li><span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
+		<li><span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
+		<li><span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
 	</ul>
 
 	<div align="left">

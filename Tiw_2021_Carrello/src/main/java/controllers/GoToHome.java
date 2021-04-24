@@ -55,8 +55,7 @@ public class GoToHome extends HttpServlet {
 		Cookie cookies[] = request.getCookies();
 		ProductDao productDao = new ProductDao(connection);
 		if (cookies == null) {
-			missing = true;
-			history = false;
+
 			num = toShow;
 		} else {
 			if (cookies.length < toShow) {
@@ -72,7 +71,6 @@ public class GoToHome extends HttpServlet {
 							Product product = productDao.findProductById(id);
 							if (product == null) {// it means that the cookie value was an invalid integer,we simply add another
 													// default product
-								missing = true;
 								num++;
 							}
 							else 
@@ -84,7 +82,6 @@ public class GoToHome extends HttpServlet {
 							return;
 						}
 				} catch (NumberFormatException e) {// if the cookie was modified we simply add another default product
-					missing = true;
 					num++;
 				}
 			}
