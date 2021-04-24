@@ -67,36 +67,21 @@ public class ProductDao {
 	
 	public Map<Product,Integer> getSearchResults(String search) throws SQLException{
 		Map<Product,Integer> map=new HashMap<>();
-		String productQuery="SELECT id, name FROM product WHERE name LIKE ?"; 
-		String costQuery="SELECT TOP 1 s.price FROM sells AS s JOIN product AS p ON s.product_id = p.id WHERE p.id = ? ORDER BY s.price ASC";
+		String query="SELECT id, name FROM product AS p JOIN sells AS s ON p.id=s.product_id WHERE p.name LIKE ? AND s.price IN (SELECT MIN(s2.price) FROM sells AS s2 WHERE s2.product_id=s.product_id) ORDER BY s.price ASC";
 		
 		//Find every product corresponding to search input
-		List<Product> list= new ArrayList<>();
-		try(PreparedStatement pstatement = connection.prepareStatement(productQuery);){
+		try(PreparedStatement pstatement = connection.prepareStatement(query);){
 			pstatement.setString(1, "%"+search+"%");
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (!result.isBeforeFirst()) // If there are no results, it returns null
 					return null;
 				
-				 while (result.next()){
+				 while (result.next()){ 
 					Product product= new Product();
-					product.setId(result.getInt("p.id"));
-					product.setName(result.getString("p.name"));
-					list.add(product);
+					product.setId(result.getInt("id"));
+					product.setName(result.getString("name"));
+					map.put(product, result.getInt("price"));
 				}
-			}
-		}
-		
-		//For each product, find minimum price
-		try (PreparedStatement pstatement = connection.prepareStatement(costQuery);){
-			for(Product p: list) {
-				pstatement.setInt(1, p.getId());
-				try(ResultSet result = pstatement.executeQuery();){
-					if(result.isBeforeFirst()) { //If there's not a minimum price, P isn't added to MAP
-						result.next();
-						map.put(p, result.getInt("s.price"));
-					}
-				}		
 			}
 		}
 		return map;

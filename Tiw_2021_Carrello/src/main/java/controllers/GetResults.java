@@ -61,8 +61,12 @@ public class GetResults extends HttpServlet {
 		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		String path="/WEB-INF/Results.html";
 		
-		//TODO SetVariable, Process...
+		ctx.setVariable("searchResults",results);
+		ctx.setVariable("searchInput", search);
+		ctx.setVariable("amount", results.keySet().size());
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	
