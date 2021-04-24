@@ -27,7 +27,7 @@
 	<h2 th:text="${viewedMessage}">Recent viewed Products</h2>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${recentProducts}"><span
-			th:text="${product.name}  "></span><a
+			th:text="${product.name} "></span><a
 			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a> <img
 			th:src="@{/Images/Watermelon.png}"></img></li>
 		<li><span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
@@ -39,7 +39,7 @@
 	<h2 th:text="${defaultMessage}">Polizon Suggest</h2>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${suggestedProducts}"><span
-			th:text="${product.name}  "></span><a
+			th:text="${product.name} + ' ' + ${product.id} "></span><a
 			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a> <img
 			th:src="@{${product.image}}" ></li>
 		<li><span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>

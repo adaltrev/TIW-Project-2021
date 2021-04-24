@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -47,9 +46,9 @@ public class GetResults extends HttpServlet {
     
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Map<Product, Integer> results=new HashMap<>();
+		Map<Product, Float> results=new HashMap<>();
 		ProductDao productDao = new ProductDao(connection);
-		String search= StringEscapeUtils.escapeJava(request.getParameter("search"));
+		String search= request.getParameter("search");
 		
 		try {
 			results = productDao.getSearchResults(search);

@@ -27,9 +27,11 @@ public class SubmitSearch extends HttpServlet {
 			response.sendRedirect(path);
 		}
 		
+		
 		else {
-			path = getServletContext().getContextPath() + "/GetResults";
+			path = getServletContext().getContextPath() + "/GetResults?search="+search;
 			response.sendRedirect(path);
+			
 		}
 	}
 

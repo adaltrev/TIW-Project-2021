@@ -11,14 +11,15 @@
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
 	<div align="left">
-		<h3 th:text="${amount + ' results for ' + searchInput + ':'}">Results</h3>
+		<h3 th:text="${amount} + ' results for ' + ${searchInput} + ':'">Results</h3>
 	</div>
-	
+
 	<ul th:remove="all-but-first">
-		<li th:each="result : ${results}">
-		<span th:text="${result.key} "></span>
-		<a th:href=@{/GetProductDetails?id=${result.key.id}}>Get Details</a>
-		<span th:text="Starting from ${result.value}>"></span>		
+		<li th:each="result : ${searchResults}"><span
+			th:text="${result.key.name}"></span> <a
+			th:href=@{/GetProductDetails?id=${result.key.id}}>Get Details</a> <span
+			th:text="'Starting from ' + ${result.value} + '$'"></span></li>
+		<li>Test</li>
 	</ul>
 
 	<div align="left">

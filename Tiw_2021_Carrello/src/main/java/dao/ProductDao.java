@@ -65,14 +65,18 @@ public class ProductDao {
 	}
 	
 	
-	public Map<Product,Integer> getSearchResults(String search) throws SQLException{
-		Map<Product,Integer> map=new HashMap<>();
-		String query="SELECT id, name FROM product AS p JOIN sells AS s ON p.id=s.product_id WHERE p.name LIKE ? AND s.price IN (SELECT MIN(s2.price) FROM sells AS s2 WHERE s2.product_id=s.product_id) ORDER BY s.price ASC";
+	public Map<Product,Float> getSearchResults(String search) throws SQLException{
+		Map<Product,Float> map=new HashMap<>();
+		String query="SELECT p.id, p.name, s.price FROM product AS p JOIN sells AS s ON p.id=s.product_id WHERE p.name LIKE ? AND s.price IN (SELECT MIN(s2.price) FROM sells AS s2 WHERE s2.product_id=s.product_id) ORDER BY s.price ASC";
 		
 		//Find every product corresponding to search input
+		search="water";
+		System.out.println("begin pstatement with input '"+search+"'");
 		try(PreparedStatement pstatement = connection.prepareStatement(query);){
 			pstatement.setString(1, "%"+search+"%");
+			System.out.println("begin execute query");
 			try (ResultSet result = pstatement.executeQuery();) {
+				System.out.println("done");
 				if (!result.isBeforeFirst()) // If there are no results, it returns null
 					return null;
 				
@@ -80,7 +84,8 @@ public class ProductDao {
 					Product product= new Product();
 					product.setId(result.getInt("id"));
 					product.setName(result.getString("name"));
-					map.put(product, result.getInt("price"));
+					map.put(product, result.getFloat("price"));
+					System.out.println(map.get(product));
 				}
 			}
 		}
