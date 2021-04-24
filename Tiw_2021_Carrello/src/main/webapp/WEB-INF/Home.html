@@ -7,22 +7,32 @@
 	href="../CssErrors.css" th:href="@{/Css/ProfStyle.css}" />
 </head>
 <body>
+	<hr>
+	<div align="center">
+		<h1>Welcome to Polizon</h1>
+	</div>
+	<hr>
 	<div align="right">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
-	<div align="center">
-		<h1>Welcome to Polizon</h1>
-		<p>
-			<span
-				th:text="${'Nice to see you again ' + session.user.name + ' ' + session.user.surname}">
-				Nice to see you again Lorenzo the Magnificent </span>
-		</p>
+	<div align="left">
+		<a href="Home.html" th:href="@{/Home}">Home</a> &ensp;
+		<!-- &ensp; insert a space -->
+		<a href="Cart.html" th:href="@{/Cart}">Cart</a>&ensp; <a
+			href="Orders.html" th:href="@{/Orders}">Login</a>
+	</div>
 
+	<div align="center">
+		<span
+			th:text="${'Nice to see you again ' + session.user.name + ' ' + session.user.surname}">
+			Nice to see you again Lorenzo the Magnificent </span>
+			<br /><br />
 		<form th:action="@{/SubmitSearch}" method="POST">
 			<span> Search with Polizon </span> <input type="text" name="search"
 				required> <input type="submit" value="search" />
 		</form>
 	</div>
+
 
 	<h2 th:text="${viewedMessage}">Recent viewed Products</h2>
 	<ul th:remove="all-but-first">
@@ -39,9 +49,9 @@
 	<h2 th:text="${defaultMessage}">Polizon Suggest</h2>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${suggestedProducts}"><span
-			th:text="${product.name} + ' ' + ${product.id} "></span><a
-			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a> <img
-			th:src="@{${product.image}}" ></li>
+			th:text="${product.name} "></span><a
+			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a><br>
+			<img th:src="@{${product.image}}"><br /><br /></li>
 		<li><span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
 		<li><span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
 		<li><span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
@@ -49,15 +59,6 @@
 		<li><span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
 	</ul>
 
-	<div align="left">
-		<a href="Home.html" th:href="@{/Home}">Home</a>
-	</div>
-	<div align="center">
-		<a href="Cart.html" th:href="@{/Cart}">Cart</a>
-	</div>
-	<div align="right">
-		<a href="Orders.html" th:href="@{/Orders}">Login</a>
-	</div>
 
 </body>
 </html>

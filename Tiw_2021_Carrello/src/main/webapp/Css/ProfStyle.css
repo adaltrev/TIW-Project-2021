@@ -6,11 +6,23 @@
 	padding: 10px;
 }
 
-* {list-style: none;}
-
-ul li {
-  margin-left: 15px;
-  position: relative;
-  padding-left: 5px;
+* {
+	list-style: none;
 }
 
+ul li {
+	margin-left: 15px;
+	position: relative;
+	padding-left: 5px;
+}
+
+img {
+	width: auto;
+	height: 100px;
+}
+
+div {
+	margin-left: 10px;
+	margin-right: 10px
+}
+p{color: red}

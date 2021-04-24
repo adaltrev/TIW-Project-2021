@@ -46,8 +46,7 @@ public class GoToHome extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// the cookies have saved the last 5 visualized products
-		boolean history = true;
-		boolean missing = false;
+
 		int toShow = 5;// maximum number of products to show in the home page
 		int num = 0;
 		List<Product> recentProducts = new ArrayList<>();
@@ -59,7 +58,6 @@ public class GoToHome extends HttpServlet {
 			num = toShow;
 		} else {
 			if (cookies.length < toShow) {
-				missing = true;
 				num = toShow - cookies.length;
 			}
 			for (int i = 0; i < cookies.length; i++) {// TODO da verifificare l'ordine in cui vengono stampati

@@ -70,8 +70,7 @@ public class ProductDao {
 		String query="SELECT p.id, p.name, s.price FROM product AS p JOIN sells AS s ON p.id=s.product_id WHERE p.name LIKE ? AND s.price IN (SELECT MIN(s2.price) FROM sells AS s2 WHERE s2.product_id=s.product_id) ORDER BY s.price ASC";
 		
 		//Find every product corresponding to search input
-		search="water";
-		System.out.println("begin pstatement with input '"+search+"'");
+
 		try(PreparedStatement pstatement = connection.prepareStatement(query);){
 			pstatement.setString(1, "%"+search+"%");
 			System.out.println("begin execute query");
