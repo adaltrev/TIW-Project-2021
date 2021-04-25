@@ -4,7 +4,7 @@
 <meta charset="ISO-8859-1">
 <title>Home</title>
 <link rel="stylesheet" type="text/css" media="all"
-	href="../CssErrors.css" th:href="@{/Css/ProfStyle.css}" />
+	href="../CssErrors.css" th:href="@{/Css/MyStyle.css}" />
 </head>
 <body>
 	<hr>
@@ -21,10 +21,11 @@
 		<a href="Cart.html" th:href="@{/Cart}">Cart</a>&ensp; <a
 			href="Orders.html" th:href="@{/Orders}">Login</a>
 	</div>
-
+	
 	<div align="center">
+	<p th:text=" ${errorMsg}"></p>
 		<span
-			th:text="${'Nice to see you again ' + session.user.name + ' ' + session.user.surname}">
+			th:text="${session.user.name + ' ' + session.user.surname + ', this is your personal HomePage'}">
 			Nice to see you again Lorenzo the Magnificent </span>
 			<br /><br />
 		<form th:action="@{/SubmitSearch}" method="POST">
@@ -33,30 +34,33 @@
 		</form>
 	</div>
 
-
+	<div>
 	<h2 th:text="${viewedMessage}">Recent viewed Products</h2>
+	</div>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${recentProducts}"><span
-			th:text="${product.name} "></span><a
+			th:text="${product.name} "></span>&ensp;<a
 			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a> <img
 			th:src="@{/Images/Watermelon.png}"></img></li>
-		<li><span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
-		<li><span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
-		<li><span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
-		<li><span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
-		<li><span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
+		<li><span>Product1 </span>&ensp; <a href="idproduct1.html">GetDetails</a></li>
+		<li><span>Product2 </span> &ensp;<a href="idproduct2.html">GetDetails</a></li>
+		<li><span>Product3 </span>&ensp; <a href="idproduct3.html">GetDetails</a></li>
+		<li><span>Product4 </span>&ensp; <a href="idproduct4.html">GetDetails</a></li>
+		<li><span>Product5 </span> &ensp;<a href="idproduct5.html">GetDetails</a></li>
 	</ul>
+	<div>
 	<h2 th:text="${defaultMessage}">Polizon Suggest</h2>
+	</div>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${suggestedProducts}"><span
-			th:text="${product.name} "></span><a
+			th:text="${product.name} "></span>&ensp;<a
 			th:href=@{/GetProductDetails?id=${product.id}}>GetDetails</a><br>
 			<img th:src="@{${product.image}}"><br /><br /></li>
-		<li><span>Product1 </span> <a href="idproduct1.html">GetDetails</a></li>
-		<li><span>Product2 </span> <a href="idproduct2.html">GetDetails</a></li>
-		<li><span>Product3 </span> <a href="idproduct3.html">GetDetails</a></li>
-		<li><span>Product4 </span> <a href="idproduct4.html">GetDetails</a></li>
-		<li><span>Product5 </span> <a href="idproduct5.html">GetDetails</a></li>
+		<li><span>Product1 </span>&ensp; <a href="idproduct1.html">GetDetails</a></li>
+		<li><span>Product2 </span> &ensp;<a href="idproduct2.html">GetDetails</a></li>
+		<li><span>Product3 </span>&ensp; <a href="idproduct3.html">GetDetails</a></li>
+		<li><span>Product4 </span>&ensp; <a href="idproduct4.html">GetDetails</a></li>
+		<li><span>Product5 </span> &ensp;<a href="idproduct5.html">GetDetails</a></li>
 	</ul>
 
 

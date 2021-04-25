@@ -31,7 +31,7 @@ public class LoginChecker implements Filter {
 		String loginpath = req.getServletContext().getContextPath() + "/FailedLogin";
 
 		HttpSession s = req.getSession();
-		if (s.isNew() || s.getAttribute("user") == null) {
+		if (s==null||s.isNew() || s.getAttribute("user") == null) {
 			HttpSession session= req.getSession(true);
 			session.setAttribute("errorMsg", "You cannot do that before login, please login");
 			res.sendRedirect(loginpath);

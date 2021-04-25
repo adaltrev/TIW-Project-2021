@@ -31,6 +31,7 @@
 		<url-pattern>/Logout</url-pattern>
 		<url-pattern>/Orders</url-pattern>
 		<url-pattern>/Cart</url-pattern>
+		<url-pattern>/SubmitSearch</url-pattern>
 	</filter-mapping>
 	<welcome-file-list>
 		<welcome-file>Login.html</welcome-file>

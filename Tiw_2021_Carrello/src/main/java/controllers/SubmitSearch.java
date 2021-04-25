@@ -23,7 +23,7 @@ public class SubmitSearch extends HttpServlet {
 		String path; 
 		search= StringEscapeUtils.escapeJava(request.getParameter("search"));
 		if(search==null || search.isEmpty()) {
-			path = getServletContext().getContextPath() + "/Home";
+			path = getServletContext().getContextPath() + "/Home?eMsg=1";
 			response.sendRedirect(path);
 		}
 		
