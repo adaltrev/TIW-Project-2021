@@ -19,7 +19,7 @@
 		<a href="Home.html" th:href="@{/Home}">Home</a> &ensp;
 		<!-- &ensp; insert a space -->
 		<a href="Cart.html" th:href="@{/Cart}">Cart</a>&ensp; <a
-			href="Orders.html" th:href="@{/Orders}">Login</a>
+			href="Orders.html" th:href="@{/Orders}">Orders</a>
 	</div>
 		<p th:text=" ${errorMsg}"></p>
 	<div align="left">
@@ -30,7 +30,7 @@
 		<li th:each="result : ${searchResults}"><span
 			th:text="${result.key.name}"></span> <a
 			th:href=@{/GetProductDetails?id=${result.key.id}}>Get Details</a> <span
-			th:text="'Starting from ' + ${result.value} + '$'"></span></li>
+			th:text="'(Starting from ' + ${result.value} + '$)'"></span></li>
 		<li>Test</li>
 	</ul>
 
