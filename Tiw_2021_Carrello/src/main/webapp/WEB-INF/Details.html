@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CssErrors.css" th:href="@{/Css/MyStyle.css}" />
+</head>
+<body>
+	<hr>
+	<div align="center">
+		<h1>Welcome to Polizon</h1>
+	</div>
+	<hr>
+	<div align="right">
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+	<div align="left">
+		<a href="Home.html" th:href="@{/Home}">Home</a> &ensp;
+		<!-- &ensp; insert a space -->
+		<a href="Cart.html" th:href="@{/Cart}">Cart</a>&ensp; <a
+			href="Orders.html" th:href="@{/Orders}">Orders</a>
+	</div>
+
+	<div align="center">
+		<p th:text=" ${errorMsg}"></p>
+		<h1 th:text="${product.name}">Product Name</h1>
+		<span th:text="'department: '+${product.department}">
+			Department: departmentName</span> <span
+			th:text="'Description: '+${product.description} ">
+			Description: product description</span> <br> <img
+			th:src="@{${product.image}}" src="Images/1.png"><br /> <br />
+	</div>
+	<h2 th:text="Sellers found:">Sellers</h2>
+	<ul th:remove="all-but-first">
+		<li th:each="seller : ${sellers}"><span th:text="${seller.name} ">
+				seller name</span>&ensp;<span th:text="'rating= '${seller.rating} '/5'">
+				rating= 3.7/5</span>&ensp;<span
+			th:text="'unitPrice= '${seller.productPrice} +'$' ">
+				unitPrice= 5$</span>&ensp; <span
+			th:text="'Free shipping starting from  '${seller.freeShipping} +'$' ">Free
+				shippig starting from 33$</span>&ensp;
+			<h4 th:text="Price Range: ">Sellers' price ranges</h4> <br /> <br />
+			<ol th:remove="all-but-first">
+				<li th:each="priceRange : ${seller.priceRanges}"><span
+					th:text="'Number of items between('+${priceRange.min}+','+ ${priceRange.max}+') Shipping Price= ' + ${priceRange.price}">Number
+						of items between (0,5) Shipping Price= 27$</span></li>
+			</ol> <br /> <br />
+			<form th:action="@{/AddToCart}" method="POST">
+				<input type="number" min="1" name="addToCart" required> Add to cart<input
+					type="submit" value="amount" />
+			</form></li>
+	</ul>
+</body>
+</html>
