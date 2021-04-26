@@ -88,7 +88,7 @@ public class GoToHome extends HttpServlet {
 		}
 		if(num>0) {
 			try {
-				suggestedProducts=productDao.getSuggestedProducts(num,"food");
+				suggestedProducts=productDao.getSuggestedProducts(num,"Food");
 			} catch (SQLException e) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"Server unavailable, not possible to show products ");
