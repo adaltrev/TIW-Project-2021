@@ -40,7 +40,7 @@
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${recentProducts}"><span
 			th:text="${product.name} "></span>&ensp;<a
-			th:href="@{'/GetProductDetails?id='+${result.key.id}}">Get Details</a><br> <img
+			th:href="@{'/GetProductDetails?id='+${product.id}}">Get Details</a> <img
 			th:src="@{/Images/Watermelon.png}"></img></li>
 		<li><span>Product1 </span>&ensp; <a href="idproduct1.html">GetDetails</a></li>
 		<li><span>Product2 </span> &ensp;<a href="idproduct2.html">GetDetails</a></li>
@@ -54,7 +54,7 @@
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${suggestedProducts}"><span
 			th:text="${product.name} "></span>&ensp;<a
-			th:href="@{'/GetProductDetails?id='+${result.key.id}}">Get Details</a><br>
+			th:href="@{'/GetProductDetails?id='+${product.id}}">Get Details</a><br>
 			<img th:src="@{${product.image}}"><br /><br /></li>
 		<li><span>Product1 </span>&ensp; <a href="idproduct1.html">GetDetails</a></li>
 		<li><span>Product2 </span> &ensp;<a href="idproduct2.html">GetDetails</a></li>

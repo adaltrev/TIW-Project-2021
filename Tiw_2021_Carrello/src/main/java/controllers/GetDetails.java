@@ -24,7 +24,7 @@ import dao.SellerDao;
 import utils.ConnectionHandler;
 
 
-@WebServlet("/GetDetails")
+@WebServlet("/GetProductDetails")
 public class GetDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
@@ -48,7 +48,7 @@ public class GetDetails extends HttpServlet {
     
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Integer id= Integer.parseInt(request.getParameter("Id"));
+		Integer id= Integer.parseInt(request.getParameter("id"));
 		ProductDao productDao= new ProductDao(connection);
 		SellerDao sellerDao= new SellerDao(connection);
 		Product product;
@@ -62,6 +62,7 @@ public class GetDetails extends HttpServlet {
 			return;
 		}
 		if(product==null) {
+			System.out.println("id nella servlet = "+id);
 			response.sendError(HttpServletResponse.SC_NOT_FOUND,
 					"Page not found");
 		}

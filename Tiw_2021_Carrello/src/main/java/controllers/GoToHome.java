@@ -53,6 +53,7 @@ public class GoToHome extends HttpServlet {
 		List<Product> suggestedProducts = new ArrayList<>();
 		Cookie cookies[] = request.getCookies();
 		ProductDao productDao = new ProductDao(connection);
+		
 		if (cookies == null) {
 
 			num = toShow;
