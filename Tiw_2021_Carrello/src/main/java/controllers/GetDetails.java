@@ -63,7 +63,6 @@ public class GetDetails extends HttpServlet {
 			return;
 		}
 		if(product==null) {
-			System.out.println("id nella servlet = "+id);
 			response.sendError(HttpServletResponse.SC_NOT_FOUND,
 					"Page not found");
 		}
@@ -96,6 +95,10 @@ public class GetDetails extends HttpServlet {
 		
 		if(sellers==null||sellers.size()==0)
 			ctx.setVariable("errorMsg", "No sellers for this product");
+		else {
+			ctx.setVariable("found", "Sellers for this product: ");
+			ctx.setVariable("rangeMsg","Price ranges for this seller: ");
+		}
 		ctx.setVariable("product", product);
 		ctx.setVariable("sellers", sellers);
 		templateEngine.process(path, ctx, response.getWriter());

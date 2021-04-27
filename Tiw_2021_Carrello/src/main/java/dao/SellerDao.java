@@ -1,3 +1,4 @@
+
 package dao;
 
 import java.sql.Connection;
@@ -41,14 +42,14 @@ public class SellerDao {
 					try(PreparedStatement pstatement1 = connection.prepareStatement(rangeQuery);){
 						pstatement1.setInt(1, seller.getId());
 						try(ResultSet result1 = pstatement1.executeQuery();){
-							if(!result.isBeforeFirst())
+							if(!result1.isBeforeFirst())
 								break;
 							
-							while(result.next()) {
+							while(result1.next()) {
 								PriceRange range= new PriceRange();
-								range.setMin(result.getInt("min"));
-								range.setMax(result.getInt("max"));
-								range.setPrice(result.getFloat("price"));
+								range.setMin(result1.getInt("min"));
+								range.setMax(result1.getInt("max"));
+								range.setPrice(result1.getFloat("price"));
 								ranges.add(range);
 							}
 							

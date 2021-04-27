@@ -1,3 +1,4 @@
+
 package dao;
 
 import java.sql.Connection;
@@ -67,7 +68,7 @@ public class ProductDao {
 	
 	public Map<Product,Float> getSearchResults(String search) throws SQLException{
 		Map<Product,Float> map=new HashMap<>();
-		String query="SELECT p.id, p.name, s.price FROM product AS p JOIN sells AS s ON p.id=s.product_id WHERE p.name LIKE ? AND s.price IN (SELECT MIN(s2.price) FROM sells AS s2 WHERE s2.product_id=s.product_id) ORDER BY s.price ASC";
+		String query="SELECT distinct p.id, p.name, s.price FROM product AS p JOIN sells AS s ON p.id=s.product_id WHERE p.name LIKE ? AND s.price IN (SELECT MIN(s2.price) FROM sells AS s2 WHERE s2.product_id=s.product_id) ORDER BY s.price ASC";
 		
 		//Find every product corresponding to search input
 		try(PreparedStatement pstatement = connection.prepareStatement(query);){

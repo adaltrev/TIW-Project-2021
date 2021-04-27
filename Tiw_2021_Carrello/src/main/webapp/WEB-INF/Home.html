@@ -21,13 +21,12 @@
 		<a href="Cart.html" th:href="@{/Cart}">Cart</a>&ensp; <a
 			href="Orders.html" th:href="@{/Orders}">Orders</a>
 	</div>
-	
+
 	<div align="center">
-	<p th:text=" ${errorMsg}"></p>
+		<p th:text=" ${errorMsg}"></p>
 		<span
 			th:text="${session.user.name + ' ' + session.user.surname + ', this is your personal HomePage'}">
-			Nice to see you again Lorenzo the Magnificent </span>
-			<br /><br />
+			Nice to see you again Lorenzo the Magnificent </span> <br /> <br />
 		<form th:action="@{/SubmitSearch}" method="POST">
 			<span> Search with Polizon </span> <input type="text" name="search"
 				required> <input type="submit" value="search" />
@@ -35,13 +34,13 @@
 	</div>
 
 	<div>
-	<h2 th:text="${viewedMessage}">Recent viewed Products</h2>
+		<h2 th:text="${viewedMessage}">Recent viewed Products</h2>
 	</div>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${recentProducts}"><span
 			th:text="${product.name} "></span>&ensp;<a
-			th:href="@{'/GetProductDetails?id='+${product.id}}">Get Details</a> <img
-			th:src="@{/Images/Watermelon.png}"></img></li>
+			th:href="@{'/GetProductDetails?id='+${product.id}}">Get Details</a> <br>
+		<img th:src="@{${product.image}}"></li>
 		<li><span>Product1 </span>&ensp; <a href="idproduct1.html">GetDetails</a></li>
 		<li><span>Product2 </span> &ensp;<a href="idproduct2.html">GetDetails</a></li>
 		<li><span>Product3 </span>&ensp; <a href="idproduct3.html">GetDetails</a></li>
@@ -49,13 +48,13 @@
 		<li><span>Product5 </span> &ensp;<a href="idproduct5.html">GetDetails</a></li>
 	</ul>
 	<div>
-	<h2 th:text="${defaultMessage}">Polizon Suggest</h2>
+		<h2 th:text="${defaultMessage}">Polizon Suggest</h2>
 	</div>
 	<ul th:remove="all-but-first">
 		<li th:each="product : ${suggestedProducts}"><span
 			th:text="${product.name} "></span>&ensp;<a
 			th:href="@{'/GetProductDetails?id='+${product.id}}">Get Details</a><br>
-			<img th:src="@{${product.image}}"><br /><br /></li>
+			<img th:src="@{${product.image}}"><br /> <br /></li>
 		<li><span>Product1 </span>&ensp; <a href="idproduct1.html">GetDetails</a></li>
 		<li><span>Product2 </span> &ensp;<a href="idproduct2.html">GetDetails</a></li>
 		<li><span>Product3 </span>&ensp; <a href="idproduct3.html">GetDetails</a></li>
