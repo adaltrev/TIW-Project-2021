@@ -55,22 +55,17 @@ public class GoToHome extends HttpServlet {
 		ProductDao productDao = new ProductDao(connection);
 		
 		if (cookies == null) {
-
-			num = toShow;
+		
 		} else {
-			if (cookies.length < toShow) {
-				num = toShow - cookies.length;
-			}
-			for (int i = 0; i < cookies.length; i++) {// TODO da verifificare l'ordine in cui vengono stampati
+
+			for (int i = cookies.length-1; i >=0; i--) {// TODO da verifificare l'ordine in cui vengono stampati
 				Cookie c = cookies[i];
 				int id=0;
 				try {
 					 id = Integer.parseInt(c.getValue());
 					 try {
 							Product product = productDao.findProductById(id);
-							if (product == null) {// it means that the cookie value was an invalid integer,we simply add another
-													// default product
-								num++;
+							if (product == null) {// it means that the cookie value was an invalid integer or it is another cookie,we simply add another
 							}
 							else 
 								recentProducts.add(product);
@@ -80,13 +75,13 @@ public class GoToHome extends HttpServlet {
 									"Server unavailable, not possible to show products ");
 							return;
 						}
-				} catch (NumberFormatException e) {// if the cookie was modified we simply add another default product
-					num++;
+				} catch (NumberFormatException e) {// if the cookie was modified we simply ignore it
 				}
 			}
 			
 
 		}
+		num=toShow - recentProducts.size();//we add the remaining product to show
 		if(num>0) {
 			try {
 				suggestedProducts=productDao.getSuggestedProducts(num,"Food");
