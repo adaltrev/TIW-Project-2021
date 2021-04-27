@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,6 +81,19 @@ public class GetDetails extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path="/WEB-INF/Details.html";
 
+		
+		Cookie cookies[] = request.getCookies();
+		String cookieId=Integer.toString(product.getId());
+		if(cookies.length>=6) {
+			String name =cookies[1].getName();
+			Cookie removed=new Cookie(name,"");
+			removed.setMaxAge(0);
+			response.addCookie(removed);
+		}
+		Cookie ck=new Cookie("visualized_product_"+cookieId,cookieId);
+		response.addCookie(ck);
+		
+		
 		if(sellers==null||sellers.size()==0)
 			ctx.setVariable("errorMsg", "No sellers for this product");
 		ctx.setVariable("product", product);
