@@ -45,7 +45,7 @@ public class GoToHome extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// the cookies have saved the last 5 visualized products
+		// the cookies have saved the last visualized products
 
 		int toShow = 5;// maximum number of products to show in the home page
 		int num = 0;
@@ -53,38 +53,35 @@ public class GoToHome extends HttpServlet {
 		List<Product> suggestedProducts = new ArrayList<>();
 		Cookie cookies[] = request.getCookies();
 		ProductDao productDao = new ProductDao(connection);
-		
-		if (cookies == null) {
-		
-		} else {
 
-			for (int i = cookies.length-1; i >=0; i--) {// TODO da verifificare l'ordine in cui vengono stampati
+		if (cookies != null) {
+			for (int i = cookies.length - 1; i >= 0 && toShow > 0; i--) {// it starts from the most recent cookie
 				Cookie c = cookies[i];
-				int id=0;
+				int id = 0;
 				try {
-					 id = Integer.parseInt(c.getValue());
-					 try {
-							Product product = productDao.findProductById(id);
-							if (product == null) {// it means that the cookie value was an invalid integer or it is another cookie,we simply add another
-							}
-							else 
-								recentProducts.add(product);
-
-						} catch (SQLException e) {
-							response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-									"Server unavailable, not possible to show products ");
-							return;
+					id = Integer.parseInt(c.getValue());
+					try {
+						Product product = productDao.findProductById(id);
+						if (product != null) {// it means that the cookie value was correct and we found a correspondent
+												// product
+							recentProducts.add(product);
+							toShow--;
 						}
+
+					} catch (SQLException e) {
+						response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+								"Server unavailable, not possible to show products ");
+						return;
+					}
 				} catch (NumberFormatException e) {// if the cookie was modified we simply ignore it
 				}
 			}
-			
 
 		}
-		num=toShow - recentProducts.size();//we add the remaining product to show
-		if(num>0) {
+		num = toShow;// we add the remaining product to show
+		if (num > 0) {
 			try {
-				suggestedProducts=productDao.getSuggestedProducts(num,"Food");
+				suggestedProducts = productDao.getSuggestedProducts(num, "Food");
 			} catch (SQLException e) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"Server unavailable, not possible to show products ");
@@ -93,21 +90,21 @@ public class GoToHome extends HttpServlet {
 		}
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		String path="/WEB-INF/Home.html";
-		String viewedMessage="Check your recent viewed products :";
-		String defaultMessage="Polizon suggests :";
-		if(recentProducts.size()==0) 
+		String path = "/WEB-INF/Home.html";
+		String viewedMessage = "Check your recent viewed products :";
+		String defaultMessage = "Polizon suggests :";
+		if (recentProducts.size() == 0)
 			ctx.setVariable("viewedMessage", null);
-		
-		else 
-			ctx.setVariable("viewedMessage",viewedMessage);
-		
-		if(suggestedProducts.size()==0)
+
+		else
+			ctx.setVariable("viewedMessage", viewedMessage);
+
+		if (suggestedProducts.size() == 0)
 			ctx.setVariable("defaultMessage", null);
-		else 
+		else
 			ctx.setVariable("defaultMessage", defaultMessage);
-		String eMsg= request.getParameter("eMsg");//error parameter valid if it is equal to "1"
-		if(eMsg!=null&&eMsg.equals("1"))
+		String eMsg = request.getParameter("eMsg");// error parameter valid if it is equal to "1"
+		if (eMsg != null && eMsg.equals("1"))
 			ctx.setVariable("errorMsg", "You inserted an invaled parameter into the search form, try again");
 		ctx.setVariable("recentProducts", recentProducts);
 		ctx.setVariable("suggestedProducts", suggestedProducts);
