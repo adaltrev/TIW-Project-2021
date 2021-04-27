@@ -81,15 +81,19 @@ public class GetDetails extends HttpServlet {
 		String path="/WEB-INF/Details.html";
 
 		
-		Cookie cookies[] = request.getCookies();
+		//Cookie cookies[] = request.getCookies();
 		String cookieId=Integer.toString(product.getId());
-		if(cookies.length>=6) {
+		/*if(cookies.length>=6) {
 			String name =cookies[1].getName();
 			Cookie removed=new Cookie(name,"");
 			removed.setMaxAge(0);
 			response.addCookie(removed);
-		}
-		Cookie ck=new Cookie("visualized_product_"+cookieId,cookieId);
+		}*/
+		Cookie ck=new Cookie("visualized_product_"+cookieId,"");
+		ck.setMaxAge(0);
+		response.addCookie(ck);
+		ck=new Cookie("visualized_product_"+cookieId,cookieId);
+		ck.setMaxAge(604800);
 		response.addCookie(ck);
 		
 		
