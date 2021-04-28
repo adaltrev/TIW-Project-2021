@@ -43,7 +43,7 @@
 			<h4 th:text="${rangeMsg}">Sellers' price ranges</h4> <br /> <br />
 			<ol th:remove="all-but-first">
 				<li th:each="priceRange : ${seller.ranges}"><span
-					th:text="'Number of items from ' + ${priceRange.min} + (${priceRange.max ==-1} ? '' : ' to ' + ${priceRange.max} ) + ', Shipping Price= ' + ${priceRange.price}">Number
+					th:text="'Number of items from ' + ${priceRange.min} + (${priceRange.max ==-1} ? '' : ' to ' + ${priceRange.max} ) + ', Shipping Price= ' + ${priceRange.price}+'$'">Number
 						of items between from 0 to 5, Shipping Price= 27$</span></li>
 			</ol> <br /> <br />
 			<form th:action="@{/AddToCart}" method="POST">
