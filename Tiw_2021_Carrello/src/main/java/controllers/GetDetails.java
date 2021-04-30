@@ -75,12 +75,8 @@ public class GetDetails extends HttpServlet {
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			String path = "/WEB-INF/Details.html";
 
-			// Cookie cookies[] = request.getCookies();
+		
 			String cookieId = Integer.toString(product.getId());
-			/*
-			 * if(cookies.length>=6) { String name =cookies[1].getName(); Cookie removed=new
-			 * Cookie(name,""); removed.setMaxAge(0); response.addCookie(removed); }
-			 */
 			Cookie ck = new Cookie("visualized_product_" + cookieId, "");
 			ck.setMaxAge(0);
 			response.addCookie(ck);
