@@ -127,18 +127,20 @@ public class SellerDao {
 	}
 
 	public Float findShippingPrice(int sellerId, int numProducts) throws SQLException {
-		String query = "SELECT price FROM price_range AS p JOIN seller AS s on s.id=p.seller_id  WHERE s.id=? AND p.min<= ? AND p.max>= ?";
+		String query = "SELECT price FROM price_range WHERE seller_id = ? AND min<= ? ORDER BY min DESC limit 1";
 
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, sellerId);
 			pstatement.setInt(2, numProducts);
-			pstatement.setInt(3, numProducts);
+			System.out.println(pstatement);
+			
 
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (!result.isBeforeFirst())
 					return null;
 				else {
 					result.next();
+					System.out.println(result.getFloat("price"));
 					return result.getFloat("price");
 				}
 			}

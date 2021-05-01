@@ -25,9 +25,7 @@ import beans.Seller;
 import dao.SellerDao;
 import utils.ConnectionHandler;
 
-/**
- * Servlet implementation class GoToCart
- */
+
 @WebServlet("/Cart")
 public class GoToCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -75,13 +73,14 @@ public class GoToCart extends HttpServlet {
 						return;
 					}
 					float cartPrice=0;
+					int numProducts=0;
 					for(CartProduct cartProduct:cart.get(id)) {
 						cartPrice+=cartProduct.getPrice()*cartProduct.getAmount();
+						numProducts+=cartProduct.getAmount();
 					}
 					seller.setCartPrice(cartPrice);
 					float shippingPrice=0;
 					if(cartPrice<seller.getFreeShipping()){//no freeShipping, we have to find the shipping price
-						int numProducts=cart.get(id).size();
 						try {
 							shippingPrice= sellerDao.findShippingPrice(seller.getId(), numProducts);
 						} catch (SQLException e) {

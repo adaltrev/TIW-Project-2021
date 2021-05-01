@@ -3,8 +3,8 @@ package controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import beans.Product;
+import beans.CartProduct;
 import dao.ProductDao;
 import utils.ConnectionHandler;
 
@@ -46,7 +46,7 @@ public class GetResults extends HttpServlet {
     
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Map<Product, Float> results=new HashMap<>();
+		List<CartProduct> results=new ArrayList<>();
 		ProductDao productDao = new ProductDao(connection);
 		String search= request.getParameter("search");
 		
@@ -62,11 +62,11 @@ public class GetResults extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path="/WEB-INF/Results.html";
 		
-		if(results==null||results.keySet()==null)
+		if(results==null||results.size()==0)
 			ctx.setVariable("errorMsg", "Your research has no results.");
 		else {
 			ctx.setVariable("searchResults",results);
-			ctx.setVariable("msg", results.keySet().size()+" results for "+search);
+			ctx.setVariable("msg", results.size()+" results for "+search);
 		}
 		
 		templateEngine.process(path, ctx, response.getWriter());

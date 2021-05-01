@@ -6,10 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import beans.CartProduct;
 import beans.Product;
 
 public class ProductDao {
@@ -66,8 +65,8 @@ public class ProductDao {
 	}
 	
 	
-	public Map<Product,Float> getSearchResults(String search) throws SQLException{
-		Map<Product,Float> map=new HashMap<>();
+	public List<CartProduct> getSearchResults(String search) throws SQLException{
+		List<CartProduct> list=new ArrayList<>();
 		String query="SELECT distinct p.id, p.name, s.price FROM product AS p JOIN sells AS s ON p.id=s.product_id WHERE p.name LIKE ? AND s.price IN (SELECT MIN(s2.price) FROM sells AS s2 WHERE s2.product_id=s.product_id) ORDER BY s.price ASC";
 		
 		//Find every product corresponding to search input
@@ -78,13 +77,14 @@ public class ProductDao {
 					return null;
 				
 				 while (result.next()){ 
-					Product product= new Product();
+					CartProduct product= new CartProduct();
 					product.setId(result.getInt("id"));
 					product.setName(result.getString("name"));
-					map.put(product, result.getFloat("price"));
+					product.setPrice(result.getFloat("price"));
+					list.add(product);
 				}
 			}
 		}
-		return map;
+		return list;
 	}
 }

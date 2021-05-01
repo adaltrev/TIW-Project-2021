@@ -28,9 +28,9 @@
 
 	<ul th:remove="all-but-first">
 		<li th:each="result : ${searchResults}"><span
-			th:text="${result.key.name}"></span> <a
-			th:href="@{'/GetProductDetails?id='+${result.key.id}}">Get Details</a> <span
-			th:text="'(Starting from ' + ${result.value} + '$)'"></span></li>
+			th:text="${result.name}"></span> <a
+			th:href="@{'/GetProductDetails?id='+${result.id}}">Get Details</a> <span
+			th:text="'(Starting from ' + ${result.price} + '$)'"></span></li>
 		<li>Test</li>
 	</ul>
 
