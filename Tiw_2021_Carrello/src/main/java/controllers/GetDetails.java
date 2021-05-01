@@ -114,7 +114,7 @@ public class GetDetails extends HttpServlet {
 				}
 			}
 			ctx.setVariable("product", product);
-			ctx.setVariable("sellers", sellersMap);
+			ctx.setVariable("sellersMap", sellersMap);
 			templateEngine.process(path, ctx, response.getWriter());
 
 		}

@@ -55,7 +55,7 @@
 			<form th:action="@{/AddToCart}" method="POST">
 				<input type="hidden" id="product" name="product"
 					th:value="${product.id}"> <input type="hidden" id="seller"
-					name="seller" th:value="${seller.id}"> <input type="number"
+					name="seller" th:value="${seller.key.id}"> <input type="number"
 					name="addToCart" required min="1"> <input type="submit"
 					value="addToCart" />
 			</form>
