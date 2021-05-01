@@ -62,10 +62,8 @@ public class SellerDao {
 	}
 
 	public List<Seller> findSellersByProduct(int id) throws SQLException {
-		String sellerQuery = "SELECT s.id, s.name, s.rating, s.free_shipping, sl.price FROM seller AS s JOIN sells AS sl ON s.id=sl.seller_id WHERE sl.product_id = ?";
-		String rangeQuery = "SELECT r.max, r.min, r.price FROM price_range AS r JOIN seller AS s ON r.seller_id=s.id WHERE s.id = ?";
+		String sellerQuery = "SELECT s.id, sl.price FROM seller AS s JOIN sells AS sl ON s.id=sl.seller_id WHERE sl.product_id = ?";
 		List<Seller> sellers = new ArrayList<>();
-		List<PriceRange> ranges;
 
 		try (PreparedStatement pstatement = connection.prepareStatement(sellerQuery);) {
 			pstatement.setInt(1, id);
@@ -74,32 +72,8 @@ public class SellerDao {
 					return null;
 
 				while (result.next()) {
-					ranges = new ArrayList<>();
-					Seller seller = new Seller();
-					seller.setId(result.getInt("id"));
-					seller.setName(result.getString("name"));
-					seller.setRating(result.getFloat("rating"));
-					seller.setFreeShipping(result.getFloat("free_shipping"));
+					Seller seller = this.findSellerById(result.getInt("id"));
 					seller.setProductPrice(result.getFloat("price"));
-
-					try (PreparedStatement pstatement1 = connection.prepareStatement(rangeQuery);) {
-						pstatement1.setInt(1, seller.getId());
-						try (ResultSet result1 = pstatement1.executeQuery();) {
-							if (!result1.isBeforeFirst())
-								break;
-
-							while (result1.next()) {
-								PriceRange range = new PriceRange();
-								range.setMin(result1.getInt("min"));
-								range.setMax(result1.getInt("max"));
-								range.setPrice(result1.getFloat("price"));
-								ranges.add(range);
-							}
-
-							seller.setRanges(ranges);
-						}
-					}
-
 					sellers.add(seller);
 				}
 			}
@@ -115,7 +89,7 @@ public class SellerDao {
 			pstatement.setInt(1, Pid);
 			pstatement.setInt(2, Sid);
 			try (ResultSet result = pstatement.executeQuery();) {
-				if (!result.isBeforeFirst()) 
+				if (!result.isBeforeFirst())
 					return null;
 				else {
 					result.next();
@@ -133,7 +107,6 @@ public class SellerDao {
 			pstatement.setInt(1, sellerId);
 			pstatement.setInt(2, numProducts);
 			System.out.println(pstatement);
-			
 
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (!result.isBeforeFirst())
