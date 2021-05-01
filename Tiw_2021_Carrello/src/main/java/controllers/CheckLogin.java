@@ -3,6 +3,9 @@ package controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,8 +68,9 @@ public class CheckLogin extends HttpServlet {
 			path = getServletContext().getContextPath() + "/FailedLogin";
 			response.sendRedirect(path);
 		} else {
-			request.getSession().setAttribute("user", user);
+			session.setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/Home";
+			session.setAttribute("cart", new HashMap<Integer,List<CartProduct>>());
 			response.sendRedirect(path);
 		}
 

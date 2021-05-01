@@ -3,7 +3,9 @@ package controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -12,12 +14,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import beans.CartProduct;
 import beans.Product;
 import beans.Seller;
 import dao.ProductDao;
@@ -50,6 +54,7 @@ public class GetDetails extends HttpServlet {
 		ProductDao productDao = new ProductDao(connection);
 		SellerDao sellerDao = new SellerDao(connection);
 		Product product;
+		Map<Seller,CartProduct> sellersMap=new HashMap<>();
 		List<Seller> sellers;
 
 		try {
@@ -88,10 +93,28 @@ public class GetDetails extends HttpServlet {
 				ctx.setVariable("errorMsg", "No sellers for this product");
 			else {
 				ctx.setVariable("found", "Sellers for this product: ");
-				ctx.setVariable("rangeMsg", "Price ranges for this seller: ");
+				
+				HttpSession session= request.getSession();
+				@SuppressWarnings("unchecked")
+				Map<Integer,List<CartProduct>> cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");
+				for(Seller s : sellers) {
+					CartProduct cp = new CartProduct();
+					cp.setAmount(0);
+					cp.setPrice(0);
+					if(cart.size()>0 && cart.keySet().contains(s.getId())) {
+						for (CartProduct p : cart.get(s.getId())) {
+							if (p.getId() == product.getId()) {
+								cp.setAmount(p.getAmount());
+								cp.setPrice(p.getPrice()*cp.getAmount());
+								break;
+							}
+						}
+					}
+					sellersMap.put(s, cp);
+				}
 			}
 			ctx.setVariable("product", product);
-			ctx.setVariable("sellers", sellers);
+			ctx.setVariable("sellers", sellersMap);
 			templateEngine.process(path, ctx, response.getWriter());
 
 		}

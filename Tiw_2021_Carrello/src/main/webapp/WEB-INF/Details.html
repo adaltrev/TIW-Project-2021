@@ -33,7 +33,7 @@
 	</div>
 	<h2 th:text="${found}">Sellers</h2>
 	<ul th:remove="all-but-first">
-		<li th:each="seller : ${sellersMap.keyset}"><span
+		<li th:each="seller : ${sellersMap}"><span
 			th:text="${seller.key.name} "> seller name</span>&ensp;<span
 			th:text="'rating=' + ${seller.key.rating} + '/5'"> rating=
 				3.7/5</span>&ensp;<span
