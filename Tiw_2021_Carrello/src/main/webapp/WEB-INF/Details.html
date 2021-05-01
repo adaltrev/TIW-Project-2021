@@ -33,25 +33,33 @@
 	</div>
 	<h2 th:text="${found}">Sellers</h2>
 	<ul th:remove="all-but-first">
-		<li th:each="seller : ${sellers}"><span th:text="${seller.name} ">
-				seller name</span>&ensp;<span th:text="'rating=' + ${seller.rating} + '/5'">
-				rating= 3.7/5</span>&ensp;<span
-			th:text="'unitPrice= ' + ${seller.productPrice} +'$' ">
+		<li th:each="seller : ${sellersMap.keyset}"><span
+			th:text="${seller.key.name} "> seller name</span>&ensp;<span
+			th:text="'rating=' + ${seller.key.rating} + '/5'"> rating=
+				3.7/5</span>&ensp;<span
+			th:text="'unitPrice= ' + ${seller.key.productPrice} +'$' ">
 				unitPrice= 5$</span>&ensp; <span
-			th:text="'Free shipping starting from  ' + ${seller.freeShipping} + '$' ">Free
-				shippig starting from 33$</span>&ensp;
-			<h4 th:text="${rangeMsg}">Sellers' price ranges</h4> <br /> <br />
+			th:text="'Free shipping starting from  ' + ${seller.key.freeShipping} + '$' ">Free
+				shipping starting from 33$</span>&ensp;
+			<h4 th:text="${seller.key.name} +' price ranges:'">Sellers'
+				price ranges:</h4>
 			<ol th:remove="all-but-first">
-				<li th:each="priceRange : ${seller.ranges}"><span
+				<li th:each="priceRange : ${seller.key.ranges}"><span
 					th:text="'Number of items from ' + ${priceRange.min} + (${priceRange.max ==-1} ? '' : ' to ' + ${priceRange.max} ) + ', Shipping Price= ' + ${priceRange.price}+'$'">Number
 						of items between from 0 to 5, Shipping Price= 27$</span></li>
-			</ol> <br /> <br />
+			</ol> <br /> <br /> <span
+			th:text="'Currently you have '+${seller.value.amount}+' products of this seller in your cart'">Currently
+				you have 5 products of this seller in your cart </span><br /> <br /> <span
+			th:text="'The total price for this product currently is '+${seller.value.price}+' $'">
+				The total price for this product currently is 5$</span><br /> <br />
 			<form th:action="@{/AddToCart}" method="POST">
-			<input type="hidden" id="product" name="product" th:value="${product.id}">
-			<input type="hidden" id="seller" name="seller" th:value="${seller.id}">
-				<input type="number" name="addToCart" required min="1"> <input
-					type="submit" value="addToCart" />
-			</form><br /> <br /></li>
+				<input type="hidden" id="product" name="product"
+					th:value="${product.id}"> <input type="hidden" id="seller"
+					name="seller" th:value="${seller.id}"> <input type="number"
+					name="addToCart" required min="1"> <input type="submit"
+					value="addToCart" />
+			</form>
+			<br /> <br /></li>
 	</ul>
 </body>
 </html>
