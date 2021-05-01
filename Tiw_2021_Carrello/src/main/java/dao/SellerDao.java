@@ -37,7 +37,6 @@ public class SellerDao {
 					seller.setName(result.getString("name"));
 					seller.setRating(result.getFloat("rating"));
 					seller.setFreeShipping(result.getFloat("free_shipping"));
-					seller.setProductPrice(result.getFloat("price"));
 
 					try (PreparedStatement pstatement1 = connection.prepareStatement(rangeQuery);) {
 						pstatement1.setInt(1, seller.getId());
@@ -116,12 +115,12 @@ public class SellerDao {
 			pstatement.setInt(1, Pid);
 			pstatement.setInt(2, Sid);
 			try (ResultSet result = pstatement.executeQuery();) {
-				System.out.println(pstatement);
 				if (!result.isBeforeFirst()) 
 					return null;
-
-				else 
+				else {
+					result.next();
 					return result.getFloat("price");
+				}
 
 			}
 		}
@@ -138,8 +137,10 @@ public class SellerDao {
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (!result.isBeforeFirst())
 					return null;
-				else
+				else {
+					result.next();
 					return result.getFloat("price");
+				}
 			}
 		}
 	}

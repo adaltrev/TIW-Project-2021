@@ -17,9 +17,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import dao.ProductDao;
 import dao.SellerDao;
 import utils.ConnectionHandler;
 import beans.CartProduct;
+import beans.Product;
 
 @WebServlet("/AddToCart")
 public class AddToCart extends HttpServlet {
@@ -92,17 +94,28 @@ public class AddToCart extends HttpServlet {
 
 		if (!found) {
 			CartProduct newProduct = new CartProduct();
+			Product product;
+			try {
+				ProductDao productDao=new ProductDao(connection);
+				product= productDao.findProductById(Pid);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"Server unavailable, not possible to add to cart");
+				return;
+			}
+			newProduct.setName(product.getName());
 			newProduct.setId(Pid);
 			newProduct.setAmount(amount);
 			newProduct.setPrice(price);
 			cart.get(Sid).add(newProduct);
 		}
 
-		session.setAttribute("cart", cart);
 
 		// Update session and redirect
 		session.setAttribute("cart", cart);
-		String path = getServletContext().getContextPath() + "/GoToCart";
+		String path = getServletContext().getContextPath() + "/Cart";
 		response.sendRedirect(path);
 	}
 }

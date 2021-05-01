@@ -2,6 +2,7 @@ package beans;
 
 public class CartProduct {
 	private int id;
+	private String name;
 	private int amount;
 	private float price;
 	
@@ -16,7 +17,9 @@ public class CartProduct {
 	public float getPrice() {
 		return price;
 	}
-	
+	public String getName() {
+		return name;
+	}
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
@@ -27,5 +30,8 @@ public class CartProduct {
 	
 	public void setPrice(float price) {
 		this.price = price;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 }

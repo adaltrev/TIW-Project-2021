@@ -30,16 +30,16 @@
 				th:text="${entry.key.name} ">seller name</h3>
 			<h4 >Products added to cart:</h4>
 			<ol th:remove="all-but-first">
-				<li th:each="product : ${sellerMap.value}"><span
-					th:text="${product.name} ">produt name</span>&ensp;<a
+				<li th:each="product : ${entry.value}"><span
+					th:text="${product.name} ">product name</span>&ensp;<a
 					th:href="@{'/GetProductDetails?id='+${product.id}}">Get Details</a>
 					<br />
 					<span th:text="'unit price = '+${product.price}">unit price = 5$</span><br /> 
 					<span th:text="'amount = '+${product.amount}">amount = 5</span>
 					</li>
 			</ol> <br /> <br />
-			<span th:text="'Total Products Price= '+${entry.key.cartPrice}+'$">Total  Products Price = 5$</span><br /> 
-			<span th:text="'Shipping Price = '+${entry.key.shippingPrice}+'$">Shipping Price = 5$</span><br /><br /> 
+			<span th:text="'Total Products Price= '+${entry.key.cartPrice}+'$'">Total  Products Price = 5$</span><br /> 
+			<span th:text="'Shipping Price = '+${entry.key.shippingPrice}+'$'">Shipping Price = 5$</span><br /><br /> 
 			<button th:onclick="@{'/CreateOrder?sId='+${entry.key.id}}" type="button">Create Order</button>
 			<br /> <br /></li>
 	</ul>

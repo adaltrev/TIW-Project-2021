@@ -57,8 +57,9 @@ public class GoToCart extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Cart.html";
-		if(cart==null||cart.keySet().size()>0)
+		if(cart==null||cart.keySet().size()==0) {
 			ctx.setVariable("errorMsg", "There aren't products in your cart");
+		}
 		else {
 			SellerDao sellerDao= new SellerDao(connection);
 			Map<Seller, List<CartProduct>> sellerMap=new HashMap<>();
@@ -68,6 +69,7 @@ public class GoToCart extends HttpServlet {
 					try {
 						seller= sellerDao.findSellerById(id);
 					} catch (SQLException e) {
+						e.printStackTrace();
 						response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 								"Server unavailable, not possible to show cart products ");
 						return;
