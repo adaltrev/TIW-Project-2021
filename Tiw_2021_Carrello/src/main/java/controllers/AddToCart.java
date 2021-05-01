@@ -21,87 +21,86 @@ import dao.SellerDao;
 import utils.ConnectionHandler;
 import beans.CartProduct;
 
-
 @WebServlet("/AddToCart")
 public class AddToCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
-       
 
-    public AddToCart() {
-        super();
-    }
-    
-    public void init() throws ServletException {
+	public AddToCart() {
+		super();
+	}
+
+	public void init() throws ServletException {
 		connection = ConnectionHandler.getConnection(getServletContext());
 	}
 
-	
-	
 	@SuppressWarnings("unchecked")
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Integer Pid;
 		Integer Sid;
 		Integer amount;
-		Integer price;
-		boolean found=false;
-		
-		
-		//Get and check input parameters
+		Float price;
+		boolean found = false;
+
+		// Get and check input parameters
 		Pid = Integer.parseInt(request.getParameter("product"));
 		Sid = Integer.parseInt(request.getParameter("seller"));
-		amount= Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("search")));
-		if(Pid==null || Sid==null || amount==null || amount<=0) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"Invalid parameters");
+		amount = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("addToCart")));
+		if (Pid == null || Sid == null || amount == null || amount <= 0) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters");
 			return;
 		}
 
-		SellerDao sellerDao= new SellerDao(connection);
+		SellerDao sellerDao = new SellerDao(connection);
 		try {
 			price = sellerDao.checkSell(Pid, Sid);
-			if(price==null) {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND,
-						"Couldn't add product to cart");
+			if (price == null) {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND, "Couldn't add product to cart");
 				return;
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Server unavailable, not possible to show search results");
+					"Server unavailable, not possible to add to cart");
 			return;
 		}
-		
-		
-		//Get current cart from session
-		Map<Integer,List<CartProduct>> cart = new HashMap<>();
-		HttpSession session= request.getSession(true);
-		cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");
-		
-		
-		//Add product (and seller) to cart
-		if(cart.size()>0 || cart.keySet().contains(Sid)) {
-			for(CartProduct p: cart.get(Sid)) {
-				if(p.getId()==Pid) {
-					p.setAmount(p.getAmount()+amount);
-					found=true;
+
+		// Get current cart from session
+		Map<Integer, List<CartProduct>> cart;
+		HttpSession session = request.getSession(true);
+		try {
+			cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");
+			if(cart==null)//TODO non so se è necessario
+				cart = new HashMap<>();
+		} catch (Exception e) {
+			cart= new HashMap<>();
+		}
+
+		// Add product (and seller) to cart
+		if (cart.size() > 0 && cart.keySet().contains(Sid)) {
+			for (CartProduct p : cart.get(Sid)) {
+				if (p.getId() == Pid) {
+					p.setAmount(p.getAmount() + amount);
+					found = true;
 					break;
-				}	
+				}
 			}
-		}	
-		else {
+		} else {
 			cart.put(Sid, new ArrayList<CartProduct>());
 		}
-			
-		if(!found) {
+
+		if (!found) {
 			CartProduct newProduct = new CartProduct();
 			newProduct.setId(Pid);
 			newProduct.setAmount(amount);
 			newProduct.setPrice(price);
 			cart.get(Sid).add(newProduct);
 		}
-			
-		
-		//Update session and redirect
+
+		session.setAttribute("cart", cart);
+
+		// Update session and redirect
 		session.setAttribute("cart", cart);
 		String path = getServletContext().getContextPath() + "/GoToCart";
 		response.sendRedirect(path);

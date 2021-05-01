@@ -28,7 +28,7 @@
 	<ul th:remove="all-but-first">
 		<li th:each="entry : ${sellerMap}"><h3
 				th:text="${entry.key.name} ">seller name</h3>
-			<h4 th:text="${productMsg}">Products added to cart:</h4>
+			<h4 >Products added to cart:</h4>
 			<ol th:remove="all-but-first">
 				<li th:each="product : ${sellerMap.value}"><span
 					th:text="${product.name} ">produt name</span>&ensp;<a

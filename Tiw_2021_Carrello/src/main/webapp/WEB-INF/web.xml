@@ -32,6 +32,8 @@
 		<url-pattern>/Orders</url-pattern>
 		<url-pattern>/Cart</url-pattern>
 		<url-pattern>/SubmitSearch</url-pattern>
+		<url-pattern>/AddToCart</url-pattern>
+		<url-pattern>/Cart</url-pattern>
 	</filter-mapping>
 	<welcome-file-list>
 		<welcome-file>Login.html</welcome-file>

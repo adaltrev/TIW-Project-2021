@@ -47,6 +47,8 @@
 						of items between from 0 to 5, Shipping Price= 27$</span></li>
 			</ol> <br /> <br />
 			<form th:action="@{/AddToCart}" method="POST">
+			<input type="hidden" id="product" name="product" th:value="${product.id}">
+			<input type="hidden" id="seller" name="seller" th:value="${seller.id}">
 				<input type="number" name="addToCart" required min="1"> <input
 					type="submit" value="addToCart" />
 			</form><br /> <br /></li>
