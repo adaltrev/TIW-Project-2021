@@ -48,7 +48,7 @@
 					th:text="'Number of items from ' + ${priceRange.min} + (${priceRange.max ==-1} ? '' : ' to ' + ${priceRange.max} ) + ', Shipping Price= ' + ${priceRange.price}+'$'">Number
 						of items between from 0 to 5, Shipping Price= 27$</span></li>
 			</ol> <br /> <br /> <span
-			th:text="'Currently you have '+${seller.value.amount}+' products of this seller in your cart'">Currently
+			th:text="'Currently you have '+${seller.value.amount}+' '+ ${product.name}+' of this seller in your cart'">Currently
 				you have 5 products of this seller in your cart </span><br /> <br /> <span
 			th:text="'The total price for this product currently is '+${seller.value.price}+' $'">
 				The total price for this product currently is 5$</span><br /> <br />

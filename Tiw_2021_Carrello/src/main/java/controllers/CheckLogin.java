@@ -70,7 +70,7 @@ public class CheckLogin extends HttpServlet {
 		} else {
 			session.setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/Home";
-			session.setAttribute("cart", new HashMap<Integer,List<CartProduct>>());
+			session.setAttribute("cart", new HashMap<Integer,List<CartProduct>>());//the hashMap is never null if the user is logged 
 			response.sendRedirect(path);
 		}
 
