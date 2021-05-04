@@ -23,7 +23,7 @@
 	</div>
 
 	<div align="center">
-		<p th:text=" ${errorMsg}"></p>
+		<p class="error" th:text=" ${errorMsg}"></p>
 	</div>
 	<ul th:remove="all-but-first">
 		<li th:each="entry : ${sellerMap}"><h3
@@ -37,9 +37,9 @@
 					<span th:text="'unit price = '+${product.price}">unit price = 5$</span><br /> 
 					<span th:text="'amount = '+${product.amount}">amount = 5</span>
 					</li>
-			</ol> <br /> <br />
-			<span th:text="'Total Products Price= '+${entry.key.cartPrice}+'$'">Total  Products Price = 5$</span><br /> 
-			<span th:text="'Shipping Price = '+${entry.key.shippingPrice}+'$'">Shipping Price = 5$</span><br /><br /> 
+			</ol> 
+			<p th:text="'Total Products Price= '+${entry.key.cartPrice}+'$'">Total  Products Price = 5$</p>
+			<p th:text="'Shipping Price = '+${entry.key.shippingPrice}+'$'">Shipping Price = 5$</p> 
 			<button th:onclick="@{'/CreateOrder?sId='+${entry.key.id}}" type="button">Create Order</button>
 			<br /> <br /></li>
 	</ul>

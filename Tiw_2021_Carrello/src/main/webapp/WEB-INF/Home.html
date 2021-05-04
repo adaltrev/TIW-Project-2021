@@ -24,9 +24,9 @@
 
 	<div align="center">
 		<p th:text=" ${errorMsg}"></p>
-		<span
+		<p
 			th:text="${session.user.name + ' ' + session.user.surname + ', this is your personal HomePage'}">
-			Nice to see you again Lorenzo the Magnificent </span> <br /> <br />
+			Nice to see you again Lorenzo the Magnificent </p>
 		<form th:action="@{/SubmitSearch}" method="POST">
 			<span> Search with Polizon </span> <input type="text" name="search"
 				required> <input type="submit" value="search" />

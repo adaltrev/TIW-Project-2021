@@ -26,4 +26,4 @@ img {
 	height: 100px;
 }
 
-p{color: red}
+p.error{color: red}
