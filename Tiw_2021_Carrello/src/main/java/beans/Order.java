@@ -4,8 +4,7 @@ import java.util.Date;
 
 public class Order {
 	private int id;
-	private int userId;
-	private int sellerId;
+	private String seller;
 	private Date date;
 	private float totalPrice;
 	private String shippingAddress;
@@ -18,17 +17,14 @@ public class Order {
 		return id;
 	}
 
-	public int getSellerId() {
-		return sellerId;
+	public String getSeller() {
+		return seller;
 	}
 
 	public float getTotalPrice() {
 		return totalPrice;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
 
 	public String getShippingAddress() {
 		return shippingAddress;
@@ -42,17 +38,14 @@ public class Order {
 		this.id = id;
 	}
 
-	public void setSellerId(int sellerId) {
-		this.sellerId = sellerId;
+	public void setSeller(String seller) {
+		this.seller = seller;
 	}
 
 	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 
 	public void setShippingAddress(String shippingAddress) {
 		this.shippingAddress = shippingAddress;

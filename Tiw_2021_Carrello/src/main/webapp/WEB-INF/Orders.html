@@ -24,5 +24,11 @@
 	<div align="center">
 		<p class="error" th:text=" ${errorMsg}"></p>
 	</div>
+	<ul th:remove="all-but-first">
+	<li th:each="order : ${orders}">
+	<h4 th:text="'Order n°'+{order.id} +' operated by '+${order.}  "></h4>
+	</li>
+	
+	</ul>
 </body>
 </html>
