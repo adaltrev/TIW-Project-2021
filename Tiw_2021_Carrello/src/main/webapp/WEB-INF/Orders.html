@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Home</title>
+<title>Order</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../CssErrors.css" th:href="@{/Css/MyStyle.css}" />
 </head>
@@ -25,10 +25,23 @@
 		<p class="error" th:text=" ${errorMsg}"></p>
 	</div>
 	<ul th:remove="all-but-first">
-	<li th:each="order : ${orders}">
-	<h4 th:text="'Order n°'+{order.id} +' operated by '+${order.}  "></h4>
-	</li>
-	
+		<li th:each="order : ${orders}">
+			<h4 th:text="'Order n° '+{order.id} +' operated by '+${order.seller}">
+				Order n° 5 operated by SellerName</h4>
+			<ol th:remove="all-but-first">
+				<li th:each="product : ${orders.products}">
+					<p th:text="${product.name}+', amount: '+${product.amount}">
+						ProductName, amount: 5</p>
+				</li>
+			</ol>
+			<p
+				th:text="'the total price of this order is '+${order.totalPrice}+'$'">
+				the total price of this order is 55.42$</p>
+			<p th:text="'Shipping address: '+{order.shippingAddress}">
+				Shipping address: address</p>
+			<p th:text="'Expected delivery date: '+${order.date}">Expected
+				delivery date: 22/02/2022</p>
+		</li>
 	</ul>
 </body>
 </html>
