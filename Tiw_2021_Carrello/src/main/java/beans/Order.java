@@ -1,6 +1,7 @@
 package beans;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
 	private int id;
@@ -8,9 +9,14 @@ public class Order {
 	private Date date;
 	private float totalPrice;
 	private String shippingAddress;
+	private List<CartProduct> products;
 
 	public Date getDate() {
 		return date;
+	}
+
+	public List<CartProduct> getProducts() {
+		return products;
 	}
 
 	public int getId() {
@@ -24,7 +30,6 @@ public class Order {
 	public float getTotalPrice() {
 		return totalPrice;
 	}
-
 
 	public String getShippingAddress() {
 		return shippingAddress;
@@ -46,9 +51,12 @@ public class Order {
 		this.totalPrice = totalPrice;
 	}
 
-
 	public void setShippingAddress(String shippingAddress) {
 		this.shippingAddress = shippingAddress;
+	}
+
+	public void setProducts(List<CartProduct> products) {
+		this.products = products;
 	}
 
 	public Order() {
