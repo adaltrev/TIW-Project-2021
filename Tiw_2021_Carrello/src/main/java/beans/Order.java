@@ -4,10 +4,11 @@ import java.util.Date;
 
 public class Order {
 	private int id;
-	private int user_id;
-	private int seller_id;
+	private int userId;
+	private int sellerId;
 	private Date date;
-	private float total_price;
+	private float totalPrice;
+	private String shippingAddress;
 
 	public Date getDate() {
 		return date;
@@ -17,16 +18,20 @@ public class Order {
 		return id;
 	}
 
-	public int getSeller_id() {
-		return seller_id;
+	public int getSellerId() {
+		return sellerId;
 	}
 
-	public float getTotal_price() {
-		return total_price;
+	public float getTotalPrice() {
+		return totalPrice;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
+	}
+
+	public String getShippingAddress() {
+		return shippingAddress;
 	}
 
 	public void setDate(Date date) {
@@ -37,16 +42,20 @@ public class Order {
 		this.id = id;
 	}
 
-	public void setSeller_id(int seller_id) {
-		this.seller_id = seller_id;
+	public void setSellerId(int sellerId) {
+		this.sellerId = sellerId;
 	}
 
-	public void setTotal_price(float total_price) {
-		this.total_price = total_price;
+	public void setTotalPrice(float totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setShippingAddress(String shippingAddress) {
+		this.shippingAddress = shippingAddress;
 	}
 
 	public Order() {
