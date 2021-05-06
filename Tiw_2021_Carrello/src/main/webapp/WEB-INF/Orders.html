@@ -30,8 +30,8 @@
 				Order n° 5 operated by SellerName</h4>
 			<ol th:remove="all-but-first">
 				<li th:each="product : ${orders.products}">
-					<p th:text="${product.name}+', amount: '+${product.amount}">
-						ProductName, amount: 5</p>
+					<p th:text="${product.name}+'unit price = '+${product.price}+', amount: '+${product.amount}">
+						ProductName,unit price= 5,45, amount: 5</p>
 				</li>
 			</ol>
 			<p

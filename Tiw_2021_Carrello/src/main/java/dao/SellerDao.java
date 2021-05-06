@@ -113,7 +113,6 @@ public class SellerDao {
 					return null;
 				else {
 					result.next();
-					System.out.println(result.getFloat("price"));
 					return result.getFloat("price");
 				}
 			}
