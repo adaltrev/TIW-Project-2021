@@ -53,7 +53,6 @@ public class GoToHome extends HttpServlet {
 		List<Product> suggestedProducts = new ArrayList<>();
 		Cookie cookies[] = request.getCookies();
 		ProductDao productDao = new ProductDao(connection);
-
 		if (cookies != null) {
 			for (int i = cookies.length - 1; i >= 0 && toShow > 0; i--) {// it starts from the most recent cookie
 				Cookie c = cookies[i];

@@ -51,7 +51,7 @@ public class GoToCart extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session= request.getSession();
-		Map<Integer,List<CartProduct>> cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");//TODO vedere se la sessione può essere modificata dal client
+		Map<Integer,List<CartProduct>> cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Cart.html";
