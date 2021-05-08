@@ -27,7 +27,7 @@
 	</div>
 	<ul th:remove="all-but-first">
 		<li th:each="order : ${orders}">
-			<h4 th:text="'Order operated by '+${order.seller}">
+			<h4 th:text="'Order '+${order.id}+' operated by '+${order.seller}">
 				Order operated by SellerName</h4>
 			<ol th:remove="all-but-first">
 				<li th:each="product : ${order.products}">
