@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import beans.CartProduct;
@@ -59,6 +61,82 @@ public class OrderDao {
 					orders.add(order);
 				}
 				return orders;
+			}
+		}
+	}
+	
+	
+	public Integer findLastOrder(int Uid) throws SQLException{
+		String query="select max(id) from orders where user_id = ?";
+		
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, Uid);
+			
+			try (ResultSet result = pstatement.executeQuery();) {
+				if (!result.isBeforeFirst()) // if there are no results, it returns null
+					throw new SQLException();
+				else {
+					result.next();
+					return result.getInt("id");
+				}
+			}
+		} 
+	}
+	
+	
+	public void createOrder(int Uid, int Sid, List<CartProduct> products) throws SQLException {
+		String orders="insert into orders values(?,?,?,?)";
+		String contain="insert into contain values(?,?,?,?)";
+		int add;
+		int totalProducts;
+		float productPrice;
+		float freeShipping;
+		
+		try (PreparedStatement pstatement = connection.prepareStatement(orders);) {
+			pstatement.setInt(1, Uid);
+			pstatement.setInt(2, Sid);
+			
+			//Get current date, create random offset (1-7 days) and set SQL date
+			java.util.Date date = new java.util.Date();
+			Calendar c = Calendar.getInstance();
+	        c.setTime(date);
+	        add = (int) (Math.random() * 6) + 1;
+	        c.add(Calendar.DATE, add);
+	        date=c.getTime();
+			java.sql.Date mySqlDate = new java.sql.Date(date.getTime());
+			pstatement.setDate(3, mySqlDate);
+			
+			//Set SQL total_price, adding total price of products and shipping price
+			SellerDao sellerDao = new SellerDao(connection);
+			totalProducts=0;
+			productPrice=0;
+			for(CartProduct cp : products) {
+				productPrice =+ (cp.getAmount()*cp.getPrice());
+				totalProducts =+ cp.getAmount();
+			}
+			freeShipping = sellerDao.findSellerById(Sid).getFreeShipping();
+			if(productPrice>=freeShipping) {
+				pstatement.setFloat(4, productPrice);
+			}
+			else {
+				pstatement.setFloat(4, productPrice + sellerDao.findShippingPrice(Sid, totalProducts));
+			}
+			
+			//Insert Order entry into database
+			pstatement.executeUpdate();
+			
+			//Retrieve current order id from database
+			int id = this.findLastOrder(Uid);
+			
+			//Insert all Contain entries into database
+			try ( PreparedStatement pstatement1 = connection.prepareStatement(contain);){
+				for(CartProduct cp : products) {
+					pstatement.setInt(1, id); 
+					pstatement.setInt(2, Uid);
+					pstatement.setInt(3, cp.getId());
+					pstatement.setInt(4, cp.getAmount());
+					pstatement.executeUpdate();
+				}
 			}
 		}
 	}
