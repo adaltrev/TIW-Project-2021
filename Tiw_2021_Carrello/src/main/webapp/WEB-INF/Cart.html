@@ -39,8 +39,10 @@
 					</li>
 			</ol> 
 			<p th:text="'Total Products Price= '+${entry.key.cartPrice}+'$'">Total  Products Price = 5$</p>
-			<p th:text="'Shipping Price = '+${entry.key.shippingPrice}+'$'">Shipping Price = 5$</p> 
-			<button th:onclick="@{'/CreateOrder?sId='+${entry.key.id}}" type="button">Create Order</button>
+			<p th:text="'Shipping Price = '+${entry.key.shippingPrice}+'$'">Shipping Price = 5$</p>
+			<form th:action="@{'/CreateOrder?sId='+${entry.key.id}}" method="POST">
+			<button type="submit" name="button" value="button">Create Order</button>
+		</form> 
 			<br /> <br /></li>
 	</ul>
 </body>

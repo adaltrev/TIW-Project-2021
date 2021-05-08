@@ -52,6 +52,7 @@ public class CreateOrder extends HttpServlet {
 				return;
 			}				
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Server unavailable, not possible to create order");
 			return;
@@ -62,6 +63,8 @@ public class CreateOrder extends HttpServlet {
 		try {
 			orderDao.createOrder(user.getId(), Sid, cart.get(Sid));
 		} catch (Exception e) {
+			System.out.println("2");
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Server unavailable, not possible to create order");
 			return;

@@ -85,8 +85,8 @@ public class OrderDao {
 	
 	
 	public void createOrder(int Uid, int Sid, List<CartProduct> products) throws SQLException {
-		String orders="insert into orders values(?,?,?,?)";
-		String contain="insert into contain values(?,?,?,?)";
+		String orders="insert into orders(id,user_id,seller_id,shipping_date,total_price) values(NULL,?,?,?,?)";
+		String contain="insert into contain(order_id,user_id,product_id,amount) values(?,?,?,?)";
 		int add;
 		int totalProducts;
 		float productPrice;
