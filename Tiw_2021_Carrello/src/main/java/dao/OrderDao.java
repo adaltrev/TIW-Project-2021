@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -22,7 +22,7 @@ public class OrderDao {
 	public List<Order> findOrdersbyUserId(int userId) throws SQLException {
 		List<Order> orders = new ArrayList<>();
 		String query = "select o.id,o.shipping_date,o.total_price,s.name,o.seller_id,u.address from (orders as o join seller as s on o.seller_id=s.id) join user as u on o.user_id=u.id where o.user_id=? order by o.shipping_date DESC";
-		String containedProductQuery = "select p.name,s.price,c.amount from (contain as c join product as p on c.product_id=p.id) join sells as s on c.product_id=s.product_id where c.order_id=? and s.seller_id=?";
+		String containedProductQuery = "select p.id,p.name,s.price,c.amount from (contain as c join product as p on c.product_id=p.id) join sells as s on c.product_id=s.product_id where c.order_id=? and s.seller_id=?";
 
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, userId);
@@ -46,6 +46,7 @@ public class OrderDao {
 
 								while (result1.next()) {
 									CartProduct cartProduct = new CartProduct();
+									cartProduct.setId(result1.getInt("id"));
 									cartProduct.setName(result1.getString("name"));
 									cartProduct.setPrice(result1.getFloat("price"));
 									cartProduct.setAmount(result1.getInt("amount"));
@@ -66,22 +67,6 @@ public class OrderDao {
 		}
 	}
 
-	/*public Integer findLastOrder(int Uid) throws SQLException {
-		String query = "select max(id) from orders where user_id = ?";
-
-		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
-			pstatement.setInt(1, Uid);
-
-			try (ResultSet result = pstatement.executeQuery();) {
-				if (!result.isBeforeFirst()) // if there are no results, it returns null
-					throw new SQLException();
-				else {
-					result.next();
-					return result.getInt("id");
-				}
-			}
-		}
-	}*/
 
 	public void createOrder(int Uid, int Sid, List<CartProduct> products) throws SQLException {
 		String orders = "insert into orders(id,user_id,seller_id,shipping_date,total_price) values(null,?,?,?,?)";
@@ -91,7 +76,7 @@ public class OrderDao {
 		float productPrice;
 		float freeShipping;
 
-		try (PreparedStatement pstatement = connection.prepareStatement(orders);) {
+		try (PreparedStatement pstatement = connection.prepareStatement(orders, Statement.RETURN_GENERATED_KEYS);) {
 			pstatement.setInt(1, Uid);
 			pstatement.setInt(2, Sid);
 
@@ -127,22 +112,21 @@ public class OrderDao {
 			int id;
 			 try (ResultSet generatedKeys = pstatement.getGeneratedKeys()) {
 		            if (generatedKeys.next()) {
-		                id=generatedKeys.getInt("id");
+		                id=generatedKeys.getInt(1);
 		            }
 		            else {
 						throw new SQLException();
 					}
 			 }
-			//int id = this.findLastOrder(Uid);
 
 			// Insert all Contain entries into database
 			try (PreparedStatement pstatement1 = connection.prepareStatement(contain);) {
 				for (CartProduct cp : products) {
-					pstatement.setInt(1, id);
-					pstatement.setInt(2, Uid);
-					pstatement.setInt(3, cp.getId());
-					pstatement.setInt(4, cp.getAmount());
-					pstatement.executeUpdate();
+					pstatement1.setInt(1, id);
+					pstatement1.setInt(2, Uid);
+					pstatement1.setInt(3, cp.getId());
+					pstatement1.setInt(4, cp.getAmount());
+					pstatement1.executeUpdate();
 				}
 			}
 		}

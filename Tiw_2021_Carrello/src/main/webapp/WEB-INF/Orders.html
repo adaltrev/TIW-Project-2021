@@ -10,6 +10,7 @@
 	<hr>
 	<div align="center">
 		<h1>Polizon</h1>
+		<h2>My Orders</h2>
 	</div>
 	<hr>
 	<div align="right">
@@ -26,12 +27,13 @@
 	</div>
 	<ul th:remove="all-but-first">
 		<li th:each="order : ${orders}">
-			<h4 th:text="'Order n° '+ ${order.id} +' operated by '+${order.seller}">
-				Order n° 5 operated by SellerName</h4>
+			<h4 th:text="'Order operated by '+${order.seller}">
+				Order operated by SellerName</h4>
 			<ol th:remove="all-but-first">
 				<li th:each="product : ${order.products}">
-					<p th:text="${product.name}+'unit price = '+${product.price}+', amount: '+${product.amount}">
-						ProductName,unit price= 5,45, amount: 5</p>
+					<span th:text="${product.name}+' (unit price = '+${product.price}+', amount: '+${product.amount}+')' ">
+						ProductName,unit price= 5,45, amount: 5</span>
+					<a th:href="@{'/GetProductDetails?id='+${product.id}}">Get Details</a>
 				</li>
 			</ol>
 			<p
