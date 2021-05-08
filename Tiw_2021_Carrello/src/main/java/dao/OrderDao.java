@@ -66,7 +66,7 @@ public class OrderDao {
 		}
 	}
 
-	public Integer findLastOrder(int Uid) throws SQLException {
+	/*public Integer findLastOrder(int Uid) throws SQLException {
 		String query = "select max(id) from orders where user_id = ?";
 
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
@@ -81,7 +81,7 @@ public class OrderDao {
 				}
 			}
 		}
-	}
+	}*/
 
 	public void createOrder(int Uid, int Sid, List<CartProduct> products) throws SQLException {
 		String orders = "insert into orders(id,user_id,seller_id,shipping_date,total_price) values(null,?,?,?,?)";
@@ -124,7 +124,16 @@ public class OrderDao {
 			pstatement.executeUpdate();
 
 			// Retrieve current order id from database
-			int id = this.findLastOrder(Uid);
+			int id;
+			 try (ResultSet generatedKeys = pstatement.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		                id=generatedKeys.getInt("id");
+		            }
+		            else {
+						throw new SQLException();
+					}
+			 }
+			//int id = this.findLastOrder(Uid);
 
 			// Insert all Contain entries into database
 			try (PreparedStatement pstatement1 = connection.prepareStatement(contain);) {
