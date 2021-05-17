@@ -22,19 +22,18 @@ import beans.CartProduct;
 import dao.ProductDao;
 import utils.ConnectionHandler;
 
-
 @WebServlet("/GetResults")
 public class GetResults extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
 	private TemplateEngine templateEngine;
-       
-    public GetResults() {
-        super();
-       
-    }
 
-    public void init() throws ServletException {
+	public GetResults() {
+		super();
+
+	}
+
+	public void init() throws ServletException {
 		connection = ConnectionHandler.getConnection(getServletContext());
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -43,35 +42,37 @@ public class GetResults extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-    
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<CartProduct> results=new ArrayList<>();
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<CartProduct> results = new ArrayList<>();
 		ProductDao productDao = new ProductDao(connection);
-		String search= request.getParameter("search");
-		
+		String search = request.getParameter("search");
+		if (search == null || search.isEmpty()) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid search parameter");
+			return;
+		}
+
 		try {
 			results = productDao.getSearchResults(search);
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Server unavailable, not possible to show search results");
 			return;
 		}
-		
+
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		String path="/WEB-INF/Results.html";
-		
-		if(results==null||results.size()==0)
+		String path = "/WEB-INF/Results.html";
+
+		if (results == null || results.size() == 0)
 			ctx.setVariable("errorMsg", "Your research has no results.");
 		else {
-			ctx.setVariable("searchResults",results);
-			ctx.setVariable("msg", results.size()+" results for "+search);
+			ctx.setVariable("searchResults", results);
+			ctx.setVariable("msg", results.size() + " results for " + search);
 		}
-		
+
 		templateEngine.process(path, ctx, response.getWriter());
 	}
-
-	
 
 }

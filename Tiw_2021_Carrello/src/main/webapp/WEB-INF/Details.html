@@ -49,10 +49,10 @@
 						of items between from 0 to 5, Shipping Price= 27$</span></li>
 			</ol>
 			<p
-				th:text="'Currently you have '+${seller.value.amount}+' '+ ${product.name}+' of this seller in your cart'">Currently
+				th:text="(${seller.value.amount ==0} ? '' : 'Currently you have '+${seller.value.amount}+' '+ ${product.name}+' of this seller in your cart')">Currently
 				you have 5 products of this seller in your cart</p>
 			<p
-				th:text="'The total price for this product currently is '+${seller.value.price}+' $'">
+				th:text="(${seller.value.amount ==0} ? '' : 'The total price for this product currently is '+${seller.value.price}+' $')">
 				The total price for this product currently is 5$</p>
 			<form th:action="@{/AddToCart}" method="POST">
 				<input type="hidden" id="product" name="product"

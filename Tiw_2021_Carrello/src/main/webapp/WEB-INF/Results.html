@@ -21,7 +21,7 @@
 		<a href="Cart.html" th:href="@{/Cart}">Cart</a>&ensp; <a
 			href="Orders.html" th:href="@{/Orders}">Orders</a>
 	</div>
-		<p class="error" th:text=" ${errorMsg}"></p>
+	<p class="error" th:text=" ${errorMsg}"></p>
 	<div align="left">
 		<h3 th:text="${msg}">Results</h3>
 	</div>
@@ -31,7 +31,7 @@
 			th:text="${result.name}"></span> <a
 			th:href="@{'/GetProductDetails?id='+${result.id}}">Get Details</a> <span
 			th:text="'(Starting from ' + ${result.price} + '$)'"></span></li>
-		
+
 	</ul>
 
 

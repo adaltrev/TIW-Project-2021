@@ -104,7 +104,7 @@ public class GoToHome extends HttpServlet {
 			ctx.setVariable("defaultMessage", defaultMessage);
 		String eMsg = request.getParameter("eMsg");// error parameter valid if it is equal to "1"
 		if (eMsg != null && eMsg.equals("1"))
-			ctx.setVariable("errorMsg", "You inserted an invaled parameter into the search form, try again");
+			ctx.setVariable("errorMsg", "You inserted an invalid parameter into the search form, try again");
 		ctx.setVariable("recentProducts", recentProducts);
 		ctx.setVariable("suggestedProducts", suggestedProducts);
 		templateEngine.process(path, ctx, response.getWriter());

@@ -50,13 +50,19 @@ public class GetDetails extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("id"));
+
+		Integer id = null;
 		ProductDao productDao = new ProductDao(connection);
 		SellerDao sellerDao = new SellerDao(connection);
 		Product product;
-		Map<Seller,CartProduct> sellersMap=new HashMap<>();
+		Map<Seller, CartProduct> sellersMap = new HashMap<>();
 		List<Seller> sellers;
-
+		try {
+			id = Integer.parseInt(request.getParameter("id"));
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID");
+			return;
+		}
 		try {
 			product = productDao.findProductById(id);
 		} catch (SQLException e) {
@@ -80,7 +86,6 @@ public class GetDetails extends HttpServlet {
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			String path = "/WEB-INF/Details.html";
 
-		
 			String cookieId = Integer.toString(product.getId());
 			Cookie ck = new Cookie("visualized_product_" + cookieId, "");
 			ck.setMaxAge(0);
@@ -93,19 +98,19 @@ public class GetDetails extends HttpServlet {
 				ctx.setVariable("errorMsg", "No sellers for this product");
 			else {
 				ctx.setVariable("found", "Sellers for this product: ");
-				
-				HttpSession session= request.getSession();
+
+				HttpSession session = request.getSession();
 				@SuppressWarnings("unchecked")
-				Map<Integer,List<CartProduct>> cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");
-				for(Seller s : sellers) {
+				Map<Integer, List<CartProduct>> cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");
+				for (Seller s : sellers) {
 					CartProduct cp = new CartProduct();
 					cp.setAmount(0);
 					cp.setPrice(0);
-					if(cart.size()>0 && cart.keySet().contains(s.getId())) {
+					if (cart.size() > 0 && cart.keySet().contains(s.getId())) {
 						for (CartProduct p : cart.get(s.getId())) {
 							if (p.getId() == product.getId()) {
 								cp.setAmount(p.getAmount());
-								cp.setPrice(p.getPrice()*cp.getAmount());
+								cp.setPrice(p.getPrice() * cp.getAmount());
 								break;
 							}
 						}
