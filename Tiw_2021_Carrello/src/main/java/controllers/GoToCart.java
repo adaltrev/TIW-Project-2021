@@ -90,7 +90,7 @@ public class GoToCart extends HttpServlet {
 						}
 					}
 					seller.setShippingPrice(shippingPrice);
-					sellerMap.put(seller, cart.get(id));//TODO verificare se l'utente può modificare i prodotti nella sessione
+					sellerMap.put(seller, cart.get(id));
 				}
 			}
 			if(sellerMap.keySet().size()>0) {//checks if there is at least one seller
