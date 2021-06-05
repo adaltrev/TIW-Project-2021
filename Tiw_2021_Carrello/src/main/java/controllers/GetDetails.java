@@ -87,7 +87,7 @@ public class GetDetails extends HttpServlet {
 			String path = "/WEB-INF/Details.html";
 
 			String cookieId = Integer.toString(product.getId());
-			Cookie ck = new Cookie("visualized_product_" + cookieId, "");
+			Cookie ck = new Cookie("visualized_product_" + cookieId, "");//reset of the eventual old cookie
 			ck.setMaxAge(0);
 			response.addCookie(ck);
 			ck = new Cookie("visualized_product_" + cookieId, cookieId);
