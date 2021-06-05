@@ -39,7 +39,7 @@
 				3.7/5</span>&ensp;<span
 			th:text="'unitPrice= ' + ${seller.key.productPrice} +'$' ">
 				unitPrice= 5$</span>&ensp; <span
-			th:text="'Free shipping starting from  ' + ${seller.key.freeShipping} + '$' ">Free
+			th:text="(${seller.key.freeshipping<=0} ? '' : 'Free shipping starting from  ' + ${seller.key.freeShipping} + '$')">Free
 				shipping starting from 33$</span>&ensp;
 			<h4 th:text="${seller.key.name} +' price ranges:'">Sellers'
 				price ranges:</h4>
@@ -49,10 +49,10 @@
 						of items between from 0 to 5, Shipping Price= 27$</span></li>
 			</ol>
 			<p
-				th:text="(${seller.value.amount ==0} ? '' : 'Currently you have '+${seller.value.amount}+' '+ ${product.name}+' of this seller in your cart')">Currently
+				th:text="(${seller.value.amount ==0} ? '' : 'Currently you have '+${seller.value.amount}+' products of this seller in your cart')">Currently
 				you have 5 products of this seller in your cart</p>
 			<p
-				th:text="(${seller.value.amount ==0} ? '' : 'The total price for this product currently is '+${seller.value.price}+' $')">
+				th:text="(${seller.value.amount ==0} ? '' : 'The total price for this seller currently is '+${seller.value.price}+' $')">
 				The total price for this product currently is 5$</p>
 			<form th:action="@{/AddToCart}" method="POST">
 				<input type="hidden" id="product" name="product"

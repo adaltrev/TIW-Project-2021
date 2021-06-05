@@ -99,7 +99,7 @@ public class OrderDao {
 				totalProducts = +cp.getAmount();
 			}
 			freeShipping = sellerDao.findSellerById(Sid).getFreeShipping();
-			if (productPrice >= freeShipping) {
+			if (freeShipping>0 && productPrice >= freeShipping) {
 				pstatement.setFloat(4, productPrice);
 			} else {
 				pstatement.setFloat(4, productPrice + sellerDao.findShippingPrice(Sid, totalProducts));

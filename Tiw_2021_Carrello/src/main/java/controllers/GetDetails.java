@@ -108,11 +108,8 @@ public class GetDetails extends HttpServlet {
 					cp.setPrice(0);
 					if (cart.size() > 0 && cart.keySet().contains(s.getId())) {
 						for (CartProduct p : cart.get(s.getId())) {
-							if (p.getId() == product.getId()) {
-								cp.setAmount(p.getAmount());
-								cp.setPrice(p.getPrice() * cp.getAmount());
-								break;
-							}
+							cp.setAmount(cp.getAmount() + p.getAmount());
+							cp.setPrice(cp.getPrice() + (p.getPrice() * p.getAmount()));
 						}
 					}
 					sellersMap.put(s, cp);

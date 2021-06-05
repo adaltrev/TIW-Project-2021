@@ -80,7 +80,7 @@ public class GoToCart extends HttpServlet {
 					}
 					seller.setCartPrice(cartPrice);
 					float shippingPrice=0;
-					if(cartPrice<seller.getFreeShipping()){//no freeShipping, we have to find the shipping price
+					if(seller.getFreeShipping()<=0 || cartPrice<seller.getFreeShipping()){//no freeShipping, we have to find the shipping price
 						try {
 							shippingPrice= sellerDao.findShippingPrice(seller.getId(), numProducts);
 						} catch (SQLException e) {
