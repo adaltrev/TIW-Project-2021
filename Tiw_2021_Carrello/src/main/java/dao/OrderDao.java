@@ -54,8 +54,7 @@ public class OrderDao {
 								}
 
 								order.setProducts(cartProducts);
-							}
-							else {
+							} else {
 								System.out.println("else");
 							}
 						}
@@ -67,7 +66,6 @@ public class OrderDao {
 		}
 	}
 
-
 	public void createOrder(int Uid, int Sid, List<CartProduct> products) throws SQLException {
 		String orders = "insert into orders(id,user_id,seller_id,shipping_date,total_price) values(null,?,?,?,?)";
 		String contain = "insert into contain(order_id,user_id,product_id,amount) values(?,?,?,?)";
@@ -75,7 +73,7 @@ public class OrderDao {
 		int totalProducts;
 		float productPrice;
 		float freeShipping;
-
+		connection.setAutoCommit(false);
 		try (PreparedStatement pstatement = connection.prepareStatement(orders, Statement.RETURN_GENERATED_KEYS);) {
 			pstatement.setInt(1, Uid);
 			pstatement.setInt(2, Sid);
@@ -99,7 +97,7 @@ public class OrderDao {
 				totalProducts = +cp.getAmount();
 			}
 			freeShipping = sellerDao.findSellerById(Sid).getFreeShipping();
-			if (freeShipping>0 && productPrice >= freeShipping) {
+			if (freeShipping > 0 && productPrice >= freeShipping) {
 				pstatement.setFloat(4, productPrice);
 			} else {
 				pstatement.setFloat(4, productPrice + sellerDao.findShippingPrice(Sid, totalProducts));
@@ -110,14 +108,13 @@ public class OrderDao {
 
 			// Retrieve current order id from database
 			int id;
-			 try (ResultSet generatedKeys = pstatement.getGeneratedKeys()) {
-		            if (generatedKeys.next()) {
-		                id=generatedKeys.getInt(1);
-		            }
-		            else {
-						throw new SQLException();
-					}
-			 }
+			try (ResultSet generatedKeys = pstatement.getGeneratedKeys()) {
+				if (generatedKeys.next()) {
+					id = generatedKeys.getInt(1);
+				} else {
+					throw new SQLException();
+				}
+			}
 
 			// Insert all Contain entries into database
 			try (PreparedStatement pstatement1 = connection.prepareStatement(contain);) {
@@ -129,6 +126,12 @@ public class OrderDao {
 					pstatement1.executeUpdate();
 				}
 			}
+			connection.commit();
+		} catch (SQLException e) {
+			connection.rollback(); // if an update fails, roll back everithing
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
 		}
 	}
 
