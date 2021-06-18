@@ -87,7 +87,7 @@ public class GetDetails extends HttpServlet {
 			String path = "/WEB-INF/Details.html";
 
 			String cookieId = Integer.toString(product.getId());
-			Cookie ck = new Cookie("visualized_product_" + cookieId, "");//reset of the eventual old cookie
+			Cookie ck = new Cookie("visualized_product_" + cookieId, "");// reset of the eventual old cookie
 			ck.setMaxAge(0);
 			response.addCookie(ck);
 			ck = new Cookie("visualized_product_" + cookieId, cookieId);
@@ -119,6 +119,14 @@ public class GetDetails extends HttpServlet {
 			ctx.setVariable("sellersMap", sellersMap);
 			templateEngine.process(path, ctx, response.getWriter());
 
+		}
+	}
+
+	public void destroy() {
+		try {
+			ConnectionHandler.closeConnection(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

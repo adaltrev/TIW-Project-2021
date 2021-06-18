@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +73,14 @@ public class CreateOrder extends HttpServlet {
 		session.setAttribute("cart", cart);
 		String path = getServletContext().getContextPath() + "/Orders";
 		response.sendRedirect(path);
+	}
+
+	public void destroy() {
+		try {
+			ConnectionHandler.closeConnection(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

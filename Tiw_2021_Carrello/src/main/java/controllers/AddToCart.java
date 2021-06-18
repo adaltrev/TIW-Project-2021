@@ -121,4 +121,11 @@ public class AddToCart extends HttpServlet {
 		String path = getServletContext().getContextPath() + "/Cart";
 		response.sendRedirect(path);
 	}
+	public void destroy() {
+		try {
+			ConnectionHandler.closeConnection(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

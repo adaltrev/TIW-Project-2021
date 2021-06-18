@@ -110,5 +110,13 @@ public class GoToHome extends HttpServlet {
 		templateEngine.process(path, ctx, response.getWriter());
 
 	}
+	
+	public void destroy() {
+		try {
+			ConnectionHandler.closeConnection(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
