@@ -25,11 +25,11 @@
 	<div align="center">
 		<p class="error" th:text=" ${errorMsg}"></p>
 	</div>
-	<ul th:remove="all-but-first">
+	<ul >
 		<li th:each="order : ${orders}">
 			<h4 th:text="'Order '+${order.id}+' operated by '+${order.seller}">
 				Order operated by SellerName</h4>
-			<ol th:remove="all-but-first">
+			<ol >
 				<li th:each="product : ${order.products}">
 					<span th:text="${product.name}+' (unit price = '+${product.price}+', amount: '+${product.amount}+')' ">
 						ProductName,unit price= 5,45, amount: 5</span>

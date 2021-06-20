@@ -75,10 +75,10 @@ public class AddToCart extends HttpServlet {
 
 		// Get current cart from session
 		Map<Integer, List<CartProduct>> cart;
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
 		try {
 			cart = (Map<Integer, List<CartProduct>>) session.getAttribute("cart");
-			if (cart == null)// TODO non so se è necessario
+			if (cart == null)
 				cart = new HashMap<>();
 		} catch (Exception e) {
 			cart = new HashMap<>();
@@ -121,6 +121,7 @@ public class AddToCart extends HttpServlet {
 		String path = getServletContext().getContextPath() + "/Cart";
 		response.sendRedirect(path);
 	}
+
 	public void destroy() {
 		try {
 			ConnectionHandler.closeConnection(connection);

@@ -38,7 +38,7 @@ public class CreateOrder extends HttpServlet {
 		Integer Sid = null;
 		User user;
 		Map<Integer, List<CartProduct>> cart;
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
 		try {
 			Sid = Integer.parseInt(request.getParameter("sId"));
 		} catch (Exception e) {

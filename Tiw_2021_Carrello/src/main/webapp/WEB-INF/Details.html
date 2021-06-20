@@ -32,7 +32,7 @@
 		<img th:src="@{${product.image}}" src="Images/1.png"><br /> <br />
 	</div>
 	<h2 th:text="${found}">Sellers</h2>
-	<ul th:remove="all-but-first">
+	<ul >
 		<li th:each="seller : ${sellersMap}"><span
 			th:text="${seller.key.name} "> seller name</span>&ensp;<span
 			th:text="'rating=' + ${seller.key.rating} + '/5'"> rating=
@@ -43,7 +43,7 @@
 				shipping starting from 33$</span>&ensp;
 			<h4 th:text="${seller.key.name} +' price ranges:'">Sellers'
 				price ranges:</h4>
-			<ol th:remove="all-but-first">
+			<ol >
 				<li th:each="priceRange : ${seller.key.ranges}"><span
 					th:text="'Number of items from ' + ${priceRange.min} + (${priceRange.max ==-1} ? '' : ' to ' + ${priceRange.max} ) + ', Shipping Price= ' + ${priceRange.price}+'$'">Number
 						of items between from 0 to 5, Shipping Price= 27$</span></li>

@@ -26,7 +26,7 @@
 	<div align="center">
 		<p class="error" th:text=" ${errorMsg}"></p>
 	</div>
-	<ul th:remove="all-but-first">
+	<ul >
 		<li th:each="entry : ${sellerMap}"><h3
 				th:text="${entry.key.name} ">seller name</h3>
 			<h4 >Products added to cart:</h4>
