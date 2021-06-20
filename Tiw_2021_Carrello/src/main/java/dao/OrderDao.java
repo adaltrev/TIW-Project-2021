@@ -54,8 +54,6 @@ public class OrderDao {
 								}
 
 								order.setProducts(cartProducts);
-							} else {
-								System.out.println("else");
 							}
 						}
 					}

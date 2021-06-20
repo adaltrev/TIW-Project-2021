@@ -3,9 +3,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Login page</title>
-<link rel="stylesheet" type="text/css" media="all" href="../CssErrors.css" th:href="@{/Css/MyStyle.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="Css/MyStyle.css" />
 </head>
 <body>
+<div>
 	<h1>Welcome to Polizon</h1>
 
 	<form action="CheckLogin" method="POST">
@@ -14,6 +16,6 @@
 		<input type="submit" value="login">
 		<p class="error" th:text=" ${errorMsg}"></p>
 	</form>
-
+</div>
 </body>
 </html>

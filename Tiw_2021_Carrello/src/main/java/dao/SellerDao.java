@@ -106,7 +106,6 @@ public class SellerDao {
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, sellerId);
 			pstatement.setInt(2, numProducts);
-			System.out.println(pstatement);
 
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (!result.isBeforeFirst())
